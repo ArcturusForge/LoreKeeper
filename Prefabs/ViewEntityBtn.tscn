@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="AddEntityBtn" type="Button"]
+margin_top = 46.0
+margin_right = 230.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 0, 50 )
+hint_tooltip = "Add a new entity"
+size_flags_horizontal = 3
+icon_align = 1
+expand_icon = true

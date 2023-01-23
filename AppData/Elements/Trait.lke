@@ -1,0 +1,5 @@
+{
+  "construct" : ["string", "string"],
+  "seperatorInterval" : 1,
+  "seperator" : " : "
+}

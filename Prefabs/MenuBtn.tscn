@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/MenuBtn.gd" type="Script" id=1]
+
+[node name="MenuBtn" type="Button"]
+anchor_right = 0.098
+anchor_bottom = 0.092
+margin_right = -0.352005
+margin_bottom = -0.200005
+rect_min_size = Vector2( 100, 55 )
+hint_tooltip = "[Write a tooltip for this option!]"
+mouse_default_cursor_shape = 2
+toggle_mode = true
+icon_align = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="toggled" from="." to="." method="_on_MenuBtn_toggled"]

@@ -1,0 +1,27 @@
+[
+    {
+        "category": "Characters",
+        "window": "Character_(collection)",
+        "icon": "pawn.png"
+    },
+    {
+        "category": "Factions",
+        "window": "",
+        "icon": null
+    },
+    {
+        "category": "Locations",
+        "window": "",
+        "icon": null
+    },
+    {
+        "category": "Items",
+        "window": "",
+        "icon": null
+    },
+    {
+        "category": "Concepts",
+        "window": "",
+        "icon": null
+    }
+]

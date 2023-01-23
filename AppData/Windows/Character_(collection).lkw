@@ -1,0 +1,24 @@
+{
+  "style" : "collection",
+  "fields" : [
+    {
+      "header" : "General Info",
+      "description" : "Create and set general traits",
+      "type" : "list",
+      "prompt" : "Add Trait",
+      "element" : "Trait"
+    },
+    {
+      "header" : "Description",
+      "description" : "Set charater images",
+      "type" : "string"
+    },
+    {
+      "header" : "Profile",
+      "description" : "Set charater images",
+      "type" : "list",
+      "prompt" : "Add Image",
+      "element" : "Image"
+    }
+  ]
+}
