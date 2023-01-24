@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/12bce287-cf70-4fdc-a7bd-e556270ac898.jpg-195b82c6820fbc224672660b77542bff.stex"
+path="res://.import/crown_a.png-b92bd1d03dedd1bea45c8790cd2814a0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/BGs/12bce287-cf70-4fdc-a7bd-e556270ac898.jpg"
-dest_files=[ "res://.import/12bce287-cf70-4fdc-a7bd-e556270ac898.jpg-195b82c6820fbc224672660b77542bff.stex" ]
+source_file="res://AppData/Icons/crown_a.png"
+dest_files=[ "res://.import/crown_a.png-b92bd1d03dedd1bea45c8790cd2814a0.stex" ]
 
 [params]
 

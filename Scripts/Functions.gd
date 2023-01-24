@@ -27,3 +27,10 @@ func get_all_files(path: String, file_ext := "", use_full_path:= true, files := 
 		print("An error occurred when trying to access %s." % path)
 
 	return files
+
+func load_image(path:String):
+	var icon = Image.new()
+	icon.load(path)
+	var t = ImageTexture.new()
+	t.create_from_image(icon)
+	return t

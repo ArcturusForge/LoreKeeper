@@ -2,26 +2,31 @@
     {
         "category": "Characters",
         "window": "Character_(collection)",
-        "icon": "pawn.png"
+        "icon": "pawn.png",
+		"addIcon": "card_tap_outline_down.png"
     },
     {
         "category": "Factions",
         "window": "",
-        "icon": null
+        "icon": "crown_a.png",
+		"addIcon": "card_tap_outline_down.png"
     },
     {
         "category": "Locations",
         "window": "",
-        "icon": null
+        "icon": "flag_square.png",
+		"addIcon": "card_tap_outline_down.png"
     },
     {
         "category": "Items",
         "window": "",
-        "icon": null
+        "icon": "pouch.png",
+		"addIcon": "card_tap_outline_down.png"
     },
     {
         "category": "Concepts",
         "window": "",
-        "icon": null
+        "icon": "puzzle.png",
+		"addIcon": "card_tap_outline_down.png"
     }
 ]

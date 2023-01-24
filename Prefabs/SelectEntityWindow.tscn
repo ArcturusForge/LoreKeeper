@@ -1,0 +1,17 @@
+[gd_scene format=2]
+
+[node name="SelectEntityWindow" type="VBoxContainer"]
+margin_right = 742.0
+margin_bottom = 514.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="."]
+margin_top = 250.0
+margin_right = 742.0
+margin_bottom = 264.0
+text = "Please select an entry to begin editing..."
+align = 1
+valign = 1
+uppercase = true

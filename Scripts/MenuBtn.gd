@@ -11,6 +11,9 @@ func _ready():
 	# Configure appearance.
 	var styleWindowData = Globals.style[index]
 	self.hint_tooltip = styleWindowData.category
+	self.icon = Functions.load_image(Globals.iconsPath + "/" + styleWindowData.icon)
+	self.icon_align = Button.ALIGN_CENTER
+	self.expand_icon = true
 	
 	# Set default selected
 	if index == 0:

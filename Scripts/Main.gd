@@ -3,8 +3,8 @@ extends Control
 # Vars
 onready var categoryBar = $Control/ScrollContainer/CategoryBar
 onready var windowHeader = $HSplitContainer/ColorRect/WindowHeader
-onready var entitiesContainer = $HSplitContainer/ColorRect/EntitiesContainer
-onready var entityContainer = $HSplitContainer/ColorRect2/EntityContainer
+onready var entitiesContainer = $HSplitContainer/ColorRect/EntitiesControl
+onready var entityContainer = $HSplitContainer/ColorRect2/EntityControl
 
 # Dynamics
 var entitiesCollectionContainer
@@ -12,23 +12,34 @@ var entityCollectionContainer
 
 # Prefabs
 onready var menuBtn = preload("res://Prefabs/MenuBtn.tscn")
-onready var collectionContainer = preload("res://Prefabs/collectionContainer.tscn")
+onready var entitiesContainerPrefab = preload("res://Prefabs/EntitiesContainer.tscn")
+onready var entityContainerPrefab = preload("res://Prefabs/EntityContainer.tscn")
 onready var newEntityBtn = preload("res://Prefabs/AddEntityBtn.tscn")
 onready var viewEntityBtn = preload("res://Prefabs/ViewEntityBtn.tscn")
+onready var selectEntityWindowPrefab = preload("res://Prefabs/SelectEntityWindow.tscn")
 
 func _ready():
-	entitiesCollectionContainer = $HSplitContainer/ColorRect/EntitiesContainer/collectionContainer
-	entityCollectionContainer = $HSplitContainer/ColorRect2/EntityContainer/collectionContainer
+	entitiesCollectionContainer = $HSplitContainer/ColorRect/EntitiesControl/collectionContainer
+	entityCollectionContainer = $HSplitContainer/ColorRect2/EntityControl/collectionContainer
+	
+	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
+	Globals.connect(Globals.createEntrySignal, self, "create_entry")
+	Globals.connect(Globals.viewEntrySignal, self, "view_entry")
+	Globals.check_folder_integrity()
 	
 	#TODO: Prompt session loader
 	#TEMP:
 	start_new_session()
+	#load_existing_session("res://AppData/Saves/Untitled_Session.lore")
+	pass
+
+func load_existing_session(path: String):
+	Session.load_data(path)
+	load_style(Globals.stylesPath + "/" + Session.styleUsed)
+	display_style()
 	pass
 
 func start_new_session():
-	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
-	Globals.check_folder_integrity()
-	
 	#TODO: Rip this out and do a style selector
 	var dir = Directory.new()
 	if not dir.file_exists(Globals.cachePath + "/config." + Globals.configExtension):
@@ -40,19 +51,13 @@ func start_new_session():
 		parse_cache(parse_json(file.get_as_text()))
 		file.close()
 	
+	#		  category-\/  \/-index of entity
+	#print(Session.data[0][0].name)
 	#TODO: Session data
 	Session.sessionName = "Untitled_Session"
 	Session.styleUsed = Globals.currentStyle
 	for index in Globals.style.size():
-		Session.data[index] = []
-	
-	Session.data[0] = [
-		{
-			"name" : "Bob Rimly"
-		}
-	]
-	#		  category-\/  \/-index of entity
-	#print(Session.data[0][0].name)
+		Session.data[String(index)] = []
 	
 	display_style()
 	pass
@@ -92,33 +97,36 @@ func load_style(path: String):
 	Globals.style = parse_json(file.get_as_text())	
 	Globals.currentStyle = path.get_file()
 	file.close()
+	pass
 
 func display_style():
 	for option in Globals.style:
 		var mbtnInst = menuBtn.instance()
 		categoryBar.add_child(mbtnInst)
+	pass
 
 func select_menu(index):
 	Globals.windowIndex = index
 	generate_window()
+	pass
 
 func generate_window():
 	windowHeader.text = Globals.style[Globals.windowIndex].category
-	
 	# Delete existing nodes
+	rebuild_entities_container()
+	rebuild_entity_container(0)
+	pass
+
+func rebuild_entities_container():
 	if entitiesCollectionContainer.get_child_count() > 0:
 		entitiesCollectionContainer.queue_free()
-	if entityCollectionContainer.get_child_count() > 0:
-		entityCollectionContainer.queue_free()
+	
+	entitiesCollectionContainer = entitiesContainerPrefab.instance()
+	entitiesContainer.add_child(entitiesCollectionContainer)
 	
 	# Generate new nodes
-	entitiesCollectionContainer = collectionContainer.instance()
-	entitiesContainer.add_child(entitiesCollectionContainer)
-	#TODO: read session data and load entities
-	var seshCategory = Session.data[Globals.windowIndex]
-	var entIndex = -1
+	var seshCategory = Session.data[String(Globals.windowIndex)]
 	for ent in seshCategory:
-		entIndex += 1
 		# Generate a button
 		var newViewBtn: Button = viewEntityBtn.instance()
 		entitiesCollectionContainer.add_child(newViewBtn)
@@ -128,9 +136,37 @@ func generate_window():
 	# Generate an add entity button
 	var aEBtn = newEntityBtn.instance()
 	entitiesCollectionContainer.add_child(aEBtn)
-	#TODO: Tie in a create function on click event
+	pass
+
+func rebuild_entity_container(windowType: int):
+	if entityCollectionContainer.get_child_count() > 0:
+		entityCollectionContainer.queue_free()
 	
-	entityCollectionContainer = collectionContainer.instance()
+	assert(windowType in Globals.EntityWindow.values(), "the function argument is expected to be a Globals.EntityWindow value")
+	match windowType:
+		0:
+			entityCollectionContainer = selectEntityWindowPrefab.instance()
+		2:
+			entityCollectionContainer = entityContainerPrefab.instance()
+		
 	entityContainer.add_child(entityCollectionContainer)
-	#TODO: select first entity and preview it as default
+	pass
+
+func create_entry(windowIndex, btnIndex):
+	print ("Creating entry in window: " + String(windowIndex))
+	var newEntry = {
+		"name" : "Rename"
+	}
+	Session.data[String(windowIndex)].append(newEntry)
+	rebuild_entities_container()
+	
+	#TODO: Generate entity window of the newly created entry
+	view_entry(btnIndex)
+	pass
+
+func view_entry(index: int):
+	#TEMP: replace with window style detection
+	rebuild_entity_container(Globals.EntityWindow.FREEFORM)
+	
+	#TODO: Connect entity window to data
 	pass

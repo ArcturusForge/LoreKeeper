@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
-[ext_resource path="res://Graphics/BGs/16e22651-bc6f-459d-a712-fe644d7489c9.jpg" type="Texture" id=2]
-[ext_resource path="res://Prefabs/collectionContainer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://AppData/Graphics/BGs/16e22651-bc6f-459d-a712-fe644d7489c9.jpg" type="Texture" id=2]
+[ext_resource path="res://Prefabs/EntitiesContainer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://AppData/Icons/book_open.png" type="Texture" id=4]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -42,7 +43,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="EntitiesContainer" type="ScrollContainer" parent="HSplitContainer/ColorRect"]
+[node name="EntitiesControl" type="ScrollContainer" parent="HSplitContainer/ColorRect"]
 anchor_top = 0.086
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -50,12 +51,12 @@ margin_left = 10.0
 margin_top = -0.064003
 margin_right = -10.0
 
-[node name="collectionContainer" parent="HSplitContainer/ColorRect/EntitiesContainer" instance=ExtResource( 3 )]
+[node name="collectionContainer" parent="HSplitContainer/ColorRect/EntitiesControl" instance=ExtResource( 3 )]
 margin_right = 230.0
 margin_bottom = 479.0
 custom_constants/separation = 15
 
-[node name="Label2" type="Label" parent="HSplitContainer/ColorRect/EntitiesContainer/collectionContainer"]
+[node name="Label2" type="Label" parent="HSplitContainer/ColorRect/EntitiesControl/collectionContainer"]
 margin_right = 230.0
 margin_bottom = 31.0
 text = "This will list all entries under the 
@@ -69,29 +70,21 @@ margin_bottom = 524.0
 rect_min_size = Vector2( 730, 100 )
 color = Color( 0, 0, 0, 0.313726 )
 
-[node name="EntityContainer" type="ScrollContainer" parent="HSplitContainer/ColorRect2"]
+[node name="EntityControl" type="ScrollContainer" parent="HSplitContainer/ColorRect2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 
-[node name="collectionContainer" parent="HSplitContainer/ColorRect2/EntityContainer" instance=ExtResource( 3 )]
+[node name="collectionContainer" parent="HSplitContainer/ColorRect2/EntityControl" instance=ExtResource( 3 )]
 margin_right = 742.0
 margin_bottom = 514.0
 
-[node name="Label" type="Label" parent="HSplitContainer/ColorRect2/EntityContainer/collectionContainer"]
+[node name="Label" type="Label" parent="HSplitContainer/ColorRect2/EntityControl/collectionContainer"]
 margin_right = 742.0
 margin_bottom = 14.0
 text = "This will list the currently selected entry's data in the window's outlined format e.g. collection, graph, etc."
-
-[node name="GraphEdit" type="GraphEdit" parent="HSplitContainer/ColorRect2/EntityContainer/collectionContainer"]
-margin_top = 18.0
-margin_right = 742.0
-margin_bottom = 514.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-minimap_size = Vector2( 120, 80 )
 
 [node name="Control" type="Control" parent="."]
 anchor_top = 0.873333
@@ -101,18 +94,39 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="FileOptionsButton" type="Button" parent="Control"]
+anchor_right = 0.073
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+hint_tooltip = "Settings"
+text = "TODO"
+icon = ExtResource( 4 )
+icon_align = 1
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+anchor_left = 0.0732422
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
 margin_top = 10.0
 margin_right = -20.0
 margin_bottom = -10.0
 scroll_vertical_enabled = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CategoryBar" type="HBoxContainer" parent="Control/ScrollContainer"]
-margin_right = 984.0
-rect_min_size = Vector2( 984, 0 )
+margin_right = 929.0
+margin_bottom = 56.0002
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/separation = 10
 alignment = 1
 __meta__ = {

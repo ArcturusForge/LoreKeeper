@@ -6,12 +6,17 @@ var cachePath = dataPath + "/Cache"
 var elementsPath = dataPath + "/Elements"
 var stylesPath = dataPath + "/Styles"
 var windowsPath = dataPath + "/Windows"
+var iconsPath = dataPath + "/Icons"
 
 # Constants
 const configExtension = "lki"
 const elementExtension = "lke"
 const windowExtension = "lkw"
 const styleExtension = "lks"
+const saveExtension = "lore"
+
+# Enums
+enum EntityWindow {SELECTOR, VERTICAL, FREEFORM, GRAPH}
 
 # Defaults
 var cacheDefault = {
@@ -89,8 +94,12 @@ var currentStyle
 var windowIndex = -1
 
 # Signals
-signal on_menu_selected(value)
+signal on_menu_selected(value1)
 var menuSelectedSignal = "on_menu_selected"
+signal on_create_entry(value1, value2)
+var createEntrySignal = "on_create_entry"
+signal on_view_entry(value1)
+var viewEntrySignal = "on_view_entry"
 
 # Functions
 func set_default_style(name):
