@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://AppData/Graphics/BGs/16e22651-bc6f-459d-a712-fe644d7489c9.jpg" type="Texture" id=2]
 [ext_resource path="res://Prefabs/EntitiesContainer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://AppData/Icons/book_open.png" type="Texture" id=4]
+[ext_resource path="res://Prefabs/CategoryBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://AppData/Icons/notepad_write.png" type="Texture" id=6]
+[ext_resource path="res://Prefabs/AttributablesWindow.tscn" type="PackedScene" id=7]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -86,6 +89,21 @@ margin_right = 742.0
 margin_bottom = 14.0
 text = "This will list the currently selected entry's data in the window's outlined format e.g. collection, graph, etc."
 
+[node name="ColorRect3" type="ColorRect" parent="HSplitContainer"]
+visible = false
+margin_left = 262.0
+margin_right = 1024.0
+margin_bottom = 524.0
+rect_min_size = Vector2( 730, 100 )
+color = Color( 0, 0, 0, 0.313726 )
+
+[node name="EntityControl" type="ScrollContainer" parent="HSplitContainer/ColorRect3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+
 [node name="Control" type="Control" parent="."]
 anchor_top = 0.873333
 anchor_right = 1.0
@@ -101,7 +119,7 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
-hint_tooltip = "Settings"
+hint_tooltip = "Options"
 text = "TODO"
 icon = ExtResource( 4 )
 icon_align = 1
@@ -110,25 +128,60 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+[node name="AddFieldButton" type="Button" parent="Control"]
+anchor_left = 0.927734
+anchor_right = 1.00073
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+hint_tooltip = "Add new field to entry"
+disabled = true
+toggle_mode = true
+text = "TODO"
+icon = ExtResource( 6 )
+icon_align = 1
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CategoryContainer" type="ScrollContainer" parent="Control"]
 anchor_left = 0.0732422
-anchor_right = 1.0
+anchor_right = 0.928766
 anchor_bottom = 1.0
 margin_top = 10.0
-margin_right = -20.0
-margin_bottom = -10.0
+margin_right = -0.0560303
+margin_bottom = -10.0002
 scroll_vertical_enabled = false
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="CategoryBar" type="HBoxContainer" parent="Control/ScrollContainer"]
-margin_right = 929.0
-margin_bottom = 56.0002
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = 10
-alignment = 1
+[node name="CategoryBar" parent="Control/CategoryContainer" instance=ExtResource( 5 )]
+margin_right = 876.0
+
+[node name="AddToEntryRoot" type="Control" parent="."]
+anchor_left = 0.839844
+anchor_top = 0.433333
+anchor_right = 0.991211
+anchor_bottom = 0.861667
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="ColorRect" type="ColorRect" parent="AddToEntryRoot"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.427451 )
+
+[node name="AttributablesContainer" type="ScrollContainer" parent="AddToEntryRoot/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="AttributablesWindow" parent="AddToEntryRoot/ColorRect/AttributablesContainer" instance=ExtResource( 7 )]

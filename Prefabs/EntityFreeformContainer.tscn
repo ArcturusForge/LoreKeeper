@@ -1,0 +1,35 @@
+[gd_scene format=2]
+
+[node name="EntityFreeformContainer" type="VBoxContainer"]
+margin_right = 742.0
+margin_bottom = 514.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 5
+
+[node name="NameContainer" type="HBoxContainer" parent="."]
+margin_right = 742.0
+margin_bottom = 26.0
+
+[node name="Label" type="Label" parent="NameContainer"]
+margin_top = 6.0
+margin_right = 86.0
+margin_bottom = 20.0
+text = "Entity Name: "
+valign = 1
+
+[node name="EntityName" type="LineEdit" parent="NameContainer"]
+margin_left = 90.0
+margin_right = 742.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+clear_button_enabled = true
+placeholder_text = "Rename"
+
+[node name="GraphEdit" type="GraphEdit" parent="."]
+margin_top = 31.0
+margin_right = 742.0
+margin_bottom = 514.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+minimap_size = Vector2( 120, 80 )

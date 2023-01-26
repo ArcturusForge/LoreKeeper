@@ -34,3 +34,11 @@ func load_image(path:String):
 	var t = ImageTexture.new()
 	t.create_from_image(icon)
 	return t
+
+# Use when creating directories/files at runtime
+func os_path_convert(path: String):
+	if "res://" in path:
+		return path.replace("res:/", OS.get_executable_path().get_base_dir())
+	elif "user://" in path:
+		return path.replace("user:/", OS.get_user_data_dir())
+	return path

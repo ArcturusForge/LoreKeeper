@@ -1,24 +1,39 @@
 {
-  "style" : "collection",
+  "format" : 1,
   "fields" : [
     {
       "header" : "General Info",
       "description" : "Create and set general traits",
-      "type" : "list",
-      "prompt" : "Add Trait",
-      "element" : "Trait"
+	  "asList" : true,
+      "type" : "Trait.lke",
+      "prompt" : "Add Trait"
     },
     {
       "header" : "Description",
-      "description" : "Set charater images",
-      "type" : "string"
+      "description" : "Set charater description",
+	  "asList" : false,
+      "type" : "Text.lke"
     },
     {
-      "header" : "Profile",
+      "header" : "Gallery",
       "description" : "Set charater images",
-      "type" : "list",
-      "prompt" : "Add Image",
-      "element" : "Image"
+	  "asList" : true,
+      "type" : "Image.lke",
+      "prompt" : "Add Image"
     }
+  ],
+  "selections" : [
+	{
+		"Prompt" : "Add General Info",
+		"fieldIndex" : 0
+	},
+	{
+		"Prompt" : "Add Description",
+		"fieldIndex" : 1
+	},
+	{
+		"Prompt" : "Add Gallery",
+		"fieldIndex" : 2
+	}
   ]
 }
