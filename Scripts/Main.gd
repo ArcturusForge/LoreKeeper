@@ -43,6 +43,16 @@ func _ready():
 	Globals.check_folder_integrity()
 	Globals.check_defaults_integrity()
 	
+	# Locate and iterate over every element type
+	var elements = Functions.get_all_files(Globals.elementsPath, Globals.elementExtension)
+	for element in elements:
+		load_element_config(element)
+	
+	# Locate and iterate over every window type
+	var windows = Functions.get_all_files(Globals.windowsPath, Globals.windowExtension)
+	for window in windows:
+		load_window_config(window)
+	
 	#TODO: Prompt session loader
 	#TEMP:
 	#start_new_session()
@@ -77,16 +87,6 @@ func start_new_session():
 	pass
 
 func parse_cache(data):	
-	# Locate and iterate over every element type
-	var elements = Functions.get_all_files(Globals.elementsPath, Globals.elementExtension)
-	for element in elements:
-		load_element_config(element)
-	
-	# Locate and iterate over every window type
-	var windows = Functions.get_all_files(Globals.windowsPath, Globals.windowExtension)
-	for window in windows:
-		load_window_config(window)
-
 	var dir = Directory.new()
 	if not dir.file_exists(Globals.stylesPath + data.style):
 		load_style(Globals.stylesPath + "Default." + Globals.styleExtension)
