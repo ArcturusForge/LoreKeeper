@@ -5,9 +5,8 @@ onready var categoryContainer = $Control/CategoryContainer
 onready var windowHeader = $HSplitContainer/ColorRect/WindowHeader
 onready var entitiesContainer = $HSplitContainer/ColorRect/EntitiesControl
 onready var entityContainer = $HSplitContainer/ColorRect2/EntityControl
-onready var addFieldButton = $Control/AddFieldButton
-
-#TODO: All of the connecting logic for AddToEntryRoot and children.
+onready var AddAttributableBtn = $Control/AddAttributableButton
+onready var OptionsBtn = $Control/FileOptionsButton
 
 # Dynamics
 var categoryBar
@@ -31,9 +30,14 @@ func _ready():
 	entitiesCollectionContainer = $HSplitContainer/ColorRect/EntitiesControl/collectionContainer
 	entityCollectionContainer = $HSplitContainer/ColorRect2/EntityControl/collectionContainer
 	
+	# Global event signal subscription
 	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
 	Globals.connect(Globals.createEntrySignal, self, "create_entry")
 	Globals.connect(Globals.viewEntrySignal, self, "view_entry")
+	
+	# Local event signal subscription
+	AddAttributableBtn.get_popup().connect("id_pressed", self, "on_attributable_selected")
+	OptionsBtn.get_popup().connect("id_pressed", self, "on_option_selected")
 	
 	# Check for directory and defaults integrity
 	Globals.check_folder_integrity()
@@ -41,7 +45,7 @@ func _ready():
 	
 	#TODO: Prompt session loader
 	#TEMP:
-	start_new_session()
+	#start_new_session()
 	#load_existing_session("res://AppData/Saves/Untitled_Session.lore")
 	pass
 
@@ -52,6 +56,8 @@ func load_existing_session(path: String):
 	pass
 
 func start_new_session():
+	Session.reset_data()
+	
 	#TODO: Rip this out and do a style selector
 	var dir = Directory.new()
 	if not dir.file_exists(Globals.cachePath + "config." + Globals.configExtension):
@@ -62,13 +68,10 @@ func start_new_session():
 		parse_cache(parse_json(file.get_as_text()))
 		file.close()
 	
-	#		  category-\/  \/-index of entity
-	#print(Session.data[0][0].name)
-	#TODO: Session data
-	Session.sessionName = "Untitled_Session"
 	Session.styleUsed = Globals.currentStyle
 	for index in Globals.style.size():
-		Session.data[String(index)] = []
+		var dat = []
+		Session.data.append(dat)
 	
 	display_style()
 	pass
@@ -146,12 +149,12 @@ func rebuild_entities_container():
 	entitiesContainer.add_child(entitiesCollectionContainer)
 	
 	# Generate new nodes
-	var seshCategory = Session.data[String(Globals.windowIndex)]
+	var seshCategory = Session.data[Globals.windowIndex]
 	for ent in seshCategory:
 		# Generate a button
 		var newViewBtn: Button = viewEntityBtn.instance()
 		entitiesCollectionContainer.add_child(newViewBtn)
-		newViewBtn.text = ent.name
+		newViewBtn.text = ent[0]["name"]
 		#TODO: Tie in a view function on click event
 	
 	# Generate an add entity button
@@ -167,6 +170,9 @@ func rebuild_entity_container(windowType: int):
 	match windowType:
 		0:
 			entityCollectionContainer = selectEntityWindowPrefab.instance()
+			# Reset the attributables button to block adding data to null refs.
+			AddAttributableBtn.disabled = true
+			Globals.entityIndex = -1
 		1:
 			entityCollectionContainer = entityListWindowPrefab.instance()
 		2:
@@ -177,21 +183,49 @@ func rebuild_entity_container(windowType: int):
 
 func create_entry(windowIndex, btnIndex):
 	print ("Creating entry in window: " + String(windowIndex))
-	var newEntry = {
+	var dat = [{
 		"name" : "Rename"
-	}
-	Session.data[String(windowIndex)].append(newEntry)
+	}]
+	Session.data[windowIndex].append(dat)
 	rebuild_entities_container()
-	
-	#TODO: Generate entity window of the newly created entry
 	view_entry(btnIndex)
 	pass
 
 func view_entry(index: int):
-	#TEMP: replace with window style detection
+	Globals.entityIndex = index
 	var windowName = Globals.style[Globals.windowIndex].window
 	var windowConfig = Globals.windowConfigs[windowName]
 	rebuild_entity_container(windowConfig.format)
-	
-	#TODO: Connect entity window to data
+	AddAttributableBtn.disabled = false
+	AddAttributableBtn.get_popup().clear()
+	for selector in windowConfig.fields:
+		AddAttributableBtn.get_popup().add_icon_item(Functions.load_image(Globals.iconsPath + selector.icon), selector.prompt)
 	pass
+
+func on_attributable_selected(index: int):
+	var windowName = Globals.style[Globals.windowIndex].window
+	var windowConfig = Globals.windowConfigs[windowName]
+	var option = windowConfig.fields[index]
+	print(option.header)
+	Session.data[Globals.windowIndex][Globals.entityIndex].append({
+		"header" : option.header,
+		"fieldIndex" : index,
+		"data" : []
+	})
+	
+	#TODO: Create element in scene
+	Globals.emit_signal(Globals.createEntityElementSignal, index)
+	pass
+
+func on_option_selected(index: int):
+	#TEMP:
+	match index:
+		0:
+			Session.save_data("res://AppData/Saves/")
+			print("Saved session: " + Session.sessionName)
+		1:
+			load_existing_session("res://AppData/Saves/Untitled_Session.lore")
+			print("Loaded session: Untitled_Session.lore")
+		2:
+			start_new_session()
+			print("Started new session: Untitled_Session.lore")

@@ -3,7 +3,10 @@ extends Node
 # Returns files of type
 func get_all_files(path: String, file_ext := "", use_full_path:= true, files := []):
 	var dir = Directory.new()
-
+	
+	if OS.has_feature("standalone"):
+		path = Functions.os_path_convert(path)
+	
 	if dir.open(path) == OK:
 		dir.list_dir_begin(true, true)
 

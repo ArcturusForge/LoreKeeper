@@ -15,6 +15,7 @@ const elementExtension = "lke"
 const windowExtension = "lkw"
 const styleExtension = "lks"
 const saveExtension = "lore"
+const sessionNameDefault = "Untitled_Session"
 
 # Enums
 enum EntityWindow {DEFAULT, LIST, FREEFORM, GRAPH}
@@ -62,38 +63,30 @@ var characterWindowDefault = {
   "format" : 1,
   "fields" : [
 	{
+	  "prompt" : "Add General Info",
+	  "icon" : "notepad_write.png",
 	  "header" : "General Info",
 	  "description" : "Create and set general traits",
 	  "asList" : true,
 	  "type" : "Trait.lke",
-	  "prompt" : "Add Trait"
+	  "listPrompt" : "Add Trait"
 	},
 	{
+	  "prompt" : "Add Description",
+	  "icon" : "book_closed.png",
 	  "header" : "Description",
 	  "description" : "Set charater description",
 	  "asList" : false,
 	  "type" : "Text.lke"
 	},
 	{
+	  "prompt" : "Add Gallery",
+	  "icon" : "pawns.png",
 	  "header" : "Gallery",
 	  "description" : "Set charater images",
 	  "asList" : true,
 	  "type" : "Image.lke",
-	  "prompt" : "Add Image"
-	}
-  ],
-  "selections" : [
-	{
-		"Prompt" : "Add General Info",
-		"fieldIndex" : 0
-	},
-	{
-		"Prompt" : "Add Description",
-		"fieldIndex" : 1
-	},
-	{
-		"Prompt" : "Add Gallery",
-		"fieldIndex" : 2
+	  "listPrompt" : "Add Image"
 	}
   ]
 }
@@ -114,6 +107,7 @@ var traitAttributeDefault = {
 var style = {}
 var currentStyle
 var windowIndex = -1
+var entityIndex = -1
 
 var windowConfigs = {}
 var elementConfigs = {}
@@ -131,10 +125,14 @@ var createEntrySignal = "on_create_entry"
 # Receives the etity index.
 signal on_view_entry(value1)
 var viewEntrySignal = "on_view_entry"
-# Called when a ui button is pressed and before ui is turned on.
-# Receives a ui wipedown value that determines what ui regions need to be disabled.
-signal ui_button_clicked(value1)
-var uiButtonClicked = "ui_button_clicked"
+# Called when the user creates an element inside an entity.
+# Receives the element index.
+signal create_entity_element(value1)
+var createEntityElementSignal = "create_entity_element"
+# Called to repaint the entities list.
+# Receives no data.
+signal repaint_entities()
+var repaintEntitiesSignal = "repaint_entities"
 
 # Functions
 func set_default_style(name):
@@ -149,6 +147,8 @@ func check_folder_integrity():
 		dir.make_dir(Functions.os_path_convert(windowsPath))
 		dir.make_dir(Functions.os_path_convert(stylesPath))
 		dir.make_dir(Functions.os_path_convert(iconsPath))
+		#TEMP:
+		dir.make_dir(Functions.os_path_convert("res://AppData/Saves/"))
 		pass
 	
 	if not dir.dir_exists(Functions.os_path_convert(cachePath)):

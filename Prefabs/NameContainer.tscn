@@ -1,0 +1,21 @@
+[gd_scene format=2]
+
+[node name="NameContainer" type="HBoxContainer"]
+margin_right = 742.0
+margin_bottom = 26.0
+
+[node name="Label" type="Label" parent="."]
+margin_top = 6.0
+margin_right = 86.0
+margin_bottom = 20.0
+text = "Entity Name: "
+valign = 1
+
+[node name="EntityName" type="LineEdit" parent="."]
+margin_left = 90.0
+margin_right = 290.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 200, 0 )
+expand_to_text_length = true
+clear_button_enabled = true
+placeholder_text = "Rename"

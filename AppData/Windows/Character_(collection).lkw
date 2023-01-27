@@ -2,38 +2,30 @@
   "format" : 1,
   "fields" : [
     {
+	  "prompt" : "Add General Info",
+	  "icon" : "notepad_write.png",
       "header" : "General Info",
       "description" : "Create and set general traits",
 	  "asList" : true,
       "type" : "Trait.lke",
-      "prompt" : "Add Trait"
+      "listPrompt" : "Add Trait"
     },
     {
+	  "prompt" : "Add Description",
+	  "icon" : "book_closed.png",
       "header" : "Description",
       "description" : "Set charater description",
 	  "asList" : false,
       "type" : "Text.lke"
     },
     {
+	  "prompt" : "Add Gallery",
+	  "icon" : "pawns.png",
       "header" : "Gallery",
       "description" : "Set charater images",
 	  "asList" : true,
       "type" : "Image.lke",
-      "prompt" : "Add Image"
+      "listPrompt" : "Add Image"
     }
-  ],
-  "selections" : [
-	{
-		"Prompt" : "Add General Info",
-		"fieldIndex" : 0
-	},
-	{
-		"Prompt" : "Add Description",
-		"fieldIndex" : 1
-	},
-	{
-		"Prompt" : "Add Gallery",
-		"fieldIndex" : 2
-	}
   ]
 }

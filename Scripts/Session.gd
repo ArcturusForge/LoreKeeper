@@ -2,7 +2,12 @@ extends Node
 
 var sessionName: String
 var styleUsed
-var data = {}
+var data = []
+
+func reset_data():
+	sessionName = Globals.sessionNameDefault
+	styleUsed = "Default." + Globals.styleExtension
+	data = []
 
 func save_data(path: String):
 	var file = File.new()
@@ -27,4 +32,5 @@ func load_data(path: String):
 	var compilation = parse_json(text)
 	styleUsed = compilation.style
 	data = compilation.data
+	sessionName = path.get_file()
 	pass
