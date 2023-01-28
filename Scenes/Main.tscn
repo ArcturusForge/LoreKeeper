@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://AppData/Graphics/BGs/16e22651-bc6f-459d-a712-fe644d7489c9.jpg" type="Texture" id=2]
@@ -6,7 +6,9 @@
 [ext_resource path="res://AppData/Icons/book_open.png" type="Texture" id=4]
 [ext_resource path="res://Prefabs/CategoryBar.tscn" type="PackedScene" id=5]
 [ext_resource path="res://AppData/Icons/notepad_write.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/TrackToBottom.gd" type="Script" id=7]
 [ext_resource path="res://AppData/Icons/book_closed.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/LoadButton.gd" type="Script" id=9]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -21,8 +23,8 @@ expand = true
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 anchor_right = 1.0
-anchor_bottom = 0.887
-margin_bottom = -8.20001
+anchor_bottom = 1.0
+margin_bottom = -76.0
 split_offset = 150
 
 [node name="ColorRect" type="ColorRect" parent="HSplitContainer"]
@@ -34,10 +36,10 @@ color = Color( 0, 0, 0, 0.313726 )
 
 [node name="WindowHeader" type="Label" parent="HSplitContainer/ColorRect"]
 anchor_right = 1.0
-anchor_bottom = 0.0819924
+anchor_bottom = 0.086
 margin_left = 10.0
 margin_right = -10.0
-margin_bottom = 2.036
+margin_bottom = -0.0639839
 text = "Category Heading"
 align = 1
 valign = 1
@@ -53,6 +55,9 @@ anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = -0.064003
 margin_right = -10.0
+script = ExtResource( 7 )
+trackToMaxH = true
+trackToMaxV = true
 
 [node name="collectionContainer" parent="HSplitContainer/ColorRect/EntitiesControl" instance=ExtResource( 3 )]
 margin_right = 230.0
@@ -79,6 +84,9 @@ anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
+script = ExtResource( 7 )
+trackToMaxH = true
+trackToMaxV = true
 
 [node name="collectionContainer" parent="HSplitContainer/ColorRect2/EntityControl" instance=ExtResource( 3 )]
 margin_right = 742.0
@@ -105,9 +113,10 @@ margin_top = 10.0
 margin_right = -10.0
 
 [node name="Control" type="Control" parent="."]
-anchor_top = 0.873333
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -76.0002
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -156,3 +165,98 @@ __meta__ = {
 
 [node name="CategoryBar" parent="Control/CategoryContainer" instance=ExtResource( 5 )]
 margin_right = 876.0
+
+[node name="StartOverlay" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="InputBlock" type="ColorRect" parent="StartOverlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.439216 )
+
+[node name="StarterWindow" type="ColorRect" parent="StartOverlay/InputBlock"]
+anchor_left = 0.371602
+anchor_top = 0.397
+anchor_right = 0.628398
+anchor_bottom = 0.603
+margin_left = 0.47998
+margin_top = -0.200012
+margin_right = -0.480042
+margin_bottom = 0.199982
+color = Color( 0.137255, 0.137255, 0.137255, 0.705882 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StartOverlay/InputBlock/StarterWindow"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+custom_constants/separation = 7
+alignment = 1
+
+[node name="LoadButton" type="Button" parent="StartOverlay/InputBlock/StarterWindow/VBoxContainer"]
+margin_right = 242.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+text = "Load Session"
+script = ExtResource( 9 )
+
+[node name="NewButton" type="Button" parent="StartOverlay/InputBlock/StarterWindow/VBoxContainer"]
+margin_top = 57.0
+margin_right = 242.0
+margin_bottom = 107.0
+rect_min_size = Vector2( 0, 50 )
+text = "New Session"
+
+[node name="StyleFileDialogue" type="PopupMenu" parent="."]
+anchor_left = 0.39
+anchor_top = 0.197
+anchor_right = 0.61
+anchor_bottom = 0.803
+margin_left = 0.139984
+margin_top = -0.200005
+margin_right = -0.140015
+margin_bottom = 0.199982
+
+[node name="SessionFileDialog" type="FileDialog" parent="."]
+anchor_left = 0.346
+anchor_top = 0.217
+anchor_right = 0.654
+anchor_bottom = 0.782
+margin_left = 0.195984
+margin_top = 0.299988
+margin_right = -0.196045
+margin_bottom = 0.299957
+window_title = "Open a Lore File"
+resizable = true
+dialog_text = "Select a LoreKeeper Session file:"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.lore" )
+
+[node name="SaveSessionDialog" type="FileDialog" parent="."]
+anchor_left = 0.302
+anchor_top = 0.23
+anchor_right = 0.698
+anchor_bottom = 0.77
+margin_left = -0.248016
+margin_top = 1.52588e-05
+margin_right = 0.247986
+margin_bottom = -3.05176e-05
+window_title = "Save your Lore File"
+resizable = true
+dialog_text = "Save your current session"
+access = 2
+filters = PoolStringArray( "*.lore" )
+
+[connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" to="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" method="_on_LoadButton_pressed"]
+[connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/NewButton" to="." method="_on_NewButton_pressed"]
+[connection signal="index_pressed" from="StyleFileDialogue" to="." method="_on_StyleFileDialogue_index_pressed"]
+[connection signal="file_selected" from="SessionFileDialog" to="." method="_on_SessionFileDialog_file_selected"]
+[connection signal="file_selected" from="SaveSessionDialog" to="." method="_on_SaveSessionDialog_file_selected"]

@@ -1,6 +1,11 @@
 extends Control
 
 # Vars
+onready var startOverlay = $StartOverlay
+onready var seshDialogue: FileDialog = $SessionFileDialog
+onready var styleDialogue: PopupMenu = $StyleFileDialogue
+onready var saveAsDialogue: FileDialog = $SaveSessionDialog
+
 onready var categoryContainer = $Control/CategoryContainer
 onready var windowHeader = $HSplitContainer/ColorRect/WindowHeader
 onready var entitiesContainer = $HSplitContainer/ColorRect/EntitiesControl
@@ -26,6 +31,7 @@ onready var entityListWindowPrefab = preload("res://Prefabs/EntityListContainer.
 onready var entityFreeformWindowPrefab = preload("res://Prefabs/EntityFreeformContainer.tscn")
 
 func _ready():
+	startOverlay.visible = true
 	categoryBar = $Control/CategoryContainer/CategoryBar
 	entitiesCollectionContainer = $HSplitContainer/ColorRect/EntitiesControl/collectionContainer
 	entityCollectionContainer = $HSplitContainer/ColorRect2/EntityControl/collectionContainer
@@ -34,6 +40,7 @@ func _ready():
 	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
 	Globals.connect(Globals.createEntrySignal, self, "create_entry")
 	Globals.connect(Globals.viewEntrySignal, self, "view_entry")
+	Globals.connect(Globals.redrawAllSignal, self, "handle_redraw_all")
 	
 	# Local event signal subscription
 	AddAttributableBtn.get_popup().connect("id_pressed", self, "on_attributable_selected")
@@ -53,6 +60,11 @@ func _ready():
 	for window in windows:
 		load_window_config(window)
 	
+	# Locate and iterate over every style type
+	var styles = Functions.get_all_files(Globals.stylesPath, Globals.styleExtension)
+	for style in styles:
+		load_style_config(style)
+	
 	#TODO: Prompt session loader
 	#TEMP:
 	#start_new_session()
@@ -61,22 +73,12 @@ func _ready():
 
 func load_existing_session(path: String):
 	Session.load_data(path)
-	load_style(Globals.stylesPath + Session.styleUsed)
+	select_style(Session.styleUsed)
 	display_style()
 	pass
 
 func start_new_session():
 	Session.reset_data()
-	
-	#TODO: Rip this out and do a style selector
-	var dir = Directory.new()
-	if not dir.file_exists(Globals.cachePath + "config." + Globals.configExtension):
-		parse_cache(Globals.cacheDefault)
-	else:
-		var file = File.new()
-		file.open(Globals.cachePath + "config." + Globals.configExtension, File.READ)
-		parse_cache(parse_json(file.get_as_text()))
-		file.close()
 	
 	Session.styleUsed = Globals.currentStyle
 	for index in Globals.style.size():
@@ -86,13 +88,12 @@ func start_new_session():
 	display_style()
 	pass
 
-func parse_cache(data):	
-	var dir = Directory.new()
-	if not dir.file_exists(Globals.stylesPath + data.style):
-		load_style(Globals.stylesPath + "Default." + Globals.styleExtension)
+func parse_config(data):	
+	if not Globals.styleConfigs.has(data.style):
+		select_style("Default." + Globals.styleExtension)
 	else:
 		# Load the set style
-		load_style(Globals.stylesPath + data.style)
+		select_style(data.style)
 	pass
 
 func load_element_config(path: String):
@@ -107,14 +108,18 @@ func load_window_config(path: String):
 	file.open(path, File.READ)
 	Globals.windowConfigs[path.get_file()] = parse_json(file.get_as_text())
 	file.close()
-	pass #TODO:
+	pass
 
-func load_style(path: String):
+func load_style_config(path: String):
 	var file = File.new()
 	file.open(path, File.READ)
-	Globals.style = parse_json(file.get_as_text())	
-	Globals.currentStyle = path.get_file()
+	Globals.styleConfigs[path.get_file()] = parse_json(file.get_as_text())
 	file.close()
+	pass
+
+func select_style(fileName: String):
+	Globals.style = Globals.styleConfigs[fileName]
+	Globals.currentStyle = fileName
 	pass
 
 func display_style():
@@ -174,10 +179,10 @@ func rebuild_entity_container(windowType: int):
 			AddAttributableBtn.disabled = true
 			Globals.entityIndex = -1
 		1:
-			entityCollectionContainer = entityListWindowPrefab.instance()
-		2:
 			entityCollectionContainer = entityFreeformWindowPrefab.instance()
-		
+		2:
+			#TODO:
+			pass
 	entityContainer.add_child(entityCollectionContainer)
 	pass
 
@@ -218,14 +223,58 @@ func on_attributable_selected(index: int):
 	pass
 
 func on_option_selected(index: int):
-	#TEMP:
+	# TODO: add a save as option
 	match index:
-		0:
-			Session.save_data("res://AppData/Saves/")
-			print("Saved session: " + Session.sessionName)
-		1:
-			load_existing_session("res://AppData/Saves/Untitled_Session.lore")
-			print("Loaded session: Untitled_Session.lore")
-		2:
-			start_new_session()
-			print("Started new session: Untitled_Session.lore")
+		0: # Save
+			#Session.save_data("res://AppData/Saves/")
+			#print("Saved session: " + Session.sessionName)
+			if Session.savePath == "":
+				saveAsDialogue.popup()
+			else:
+				Session.quick_save()
+		1: # Load
+			seshDialogue.popup()
+		2: # New
+			_on_NewButton_pressed()
+
+func _on_SessionFileDialog_file_selected(path: String):
+	load_existing_session(path)
+	print("Loaded session: " + path.get_file())
+	startOverlay.visible = false
+	pass
+
+func _on_NewButton_pressed():
+	styleDialogue.clear()
+	styleDialogue.add_separator("Select Style")
+	if Globals.styleConfigs.size() == 0:
+		var dir = Directory.new()
+		if not dir.file_exists(Globals.cachePath + "config." + Globals.configExtension):
+			parse_config(Globals.cacheDefault)
+		else:
+			var file = File.new()
+			file.open(Globals.cachePath + "config." + Globals.configExtension, File.READ)
+			parse_config(parse_json(file.get_as_text()))
+			file.close()
+	else:
+		for style in Globals.styleConfigs.keys():
+			styleDialogue.add_item(style)
+		styleDialogue.popup()
+	pass
+
+func _on_StyleFileDialogue_index_pressed(index):
+	index -= 1
+	var style = Globals.styleConfigs.keys()[index]
+	select_style(style)
+	start_new_session()
+	startOverlay.visible = false
+	pass
+
+func _on_SaveSessionDialog_file_selected(path: String):
+	print("saving: " + path)
+	Session.sessionName = path.get_file()
+	Session.save_data(path)
+	pass
+
+func handle_redraw_all():
+	generate_window()
+	pass

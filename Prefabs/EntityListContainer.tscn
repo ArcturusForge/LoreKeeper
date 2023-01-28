@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/EntityListContainer.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/EntityFreeformContainer.gd" type="Script" id=1]
+[ext_resource path="res://AppData/Icons/cards_stack_cross.png" type="Texture" id=2]
 
 [node name="EntityListContainer" type="VBoxContainer"]
 margin_right = 742.0
@@ -11,19 +12,35 @@ script = ExtResource( 1 )
 
 [node name="NameContainer" type="HBoxContainer" parent="."]
 margin_right = 742.0
-margin_bottom = 26.0
+margin_bottom = 40.0
+
+[node name="Button" type="Button" parent="NameContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+hint_tooltip = "Delete Entry"
+icon = ExtResource( 2 )
+icon_align = 1
+expand_icon = true
+
+[node name="Control" type="Control" parent="NameContainer"]
+margin_left = 44.0
+margin_right = 64.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 20, 0 )
 
 [node name="Label" type="Label" parent="NameContainer"]
-margin_top = 6.0
-margin_right = 86.0
-margin_bottom = 20.0
+margin_left = 68.0
+margin_top = 13.0
+margin_right = 154.0
+margin_bottom = 27.0
 text = "Entity Name: "
 valign = 1
 
 [node name="EntityName" type="LineEdit" parent="NameContainer"]
-margin_left = 90.0
-margin_right = 290.0
-margin_bottom = 26.0
+margin_left = 158.0
+margin_right = 358.0
+margin_bottom = 40.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 2
 expand_to_text_length = true

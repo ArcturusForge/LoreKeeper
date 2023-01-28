@@ -18,8 +18,7 @@ const saveExtension = "lore"
 const sessionNameDefault = "Untitled_Session"
 
 # Enums
-enum EntityWindow {DEFAULT, LIST, FREEFORM, GRAPH}
-enum WipedownUI {All, LEFT, MIDDLE, RIGHT}
+enum EntityWindow {DEFAULT, FREEFORM, GRAPH}
 
 # Defaults
 var cacheDefault = {
@@ -104,11 +103,12 @@ var traitAttributeDefault = {
 }
 
 # Data
-var style = {}
-var currentStyle
+var style = {} # Data for the current style
+var currentStyle: String # Name of the current style
 var windowIndex = -1
 var entityIndex = -1
 
+var styleConfigs = {}
 var windowConfigs = {}
 var elementConfigs = {}
 
@@ -133,6 +133,10 @@ var createEntityElementSignal = "create_entity_element"
 # Receives no data.
 signal repaint_entities()
 var repaintEntitiesSignal = "repaint_entities"
+# Called to redraw the entity/ies ui.
+# Receives no data.
+signal redraw_all()
+var redrawAllSignal = "redraw_all"
 
 # Functions
 func set_default_style(name):

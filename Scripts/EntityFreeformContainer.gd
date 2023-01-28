@@ -14,9 +14,15 @@ func generate_element(elementIndex: int):
 	print("Creating an element of index: " + String(elementIndex))
 	pass
 
-
 func _on_EntityName_text_entered(new_text):
 	var entityData = Session.data[Globals.windowIndex][Globals.entityIndex]
 	entityData[0].name = new_text
 	Globals.emit_signal(Globals.repaintEntitiesSignal)
+	pass # Replace with function body.
+
+
+func _on_DeleteEntryBtn_pressed():
+	# TODO: Make are you sure popup
+	Session.data[Globals.windowIndex].remove( Globals.entityIndex)
+	Globals.emit_signal(Globals.redrawAllSignal)
 	pass # Replace with function body.
