@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/FreeformNode.gd" type="Script" id=1]
+
+[node name="FreeformNode" type="GraphNode"]
+margin_right = 452.0
+margin_bottom = 269.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+show_close = true
+resizable = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="close_request" from="." to="." method="_on_FreeformNode_close_request"]
+[connection signal="dragged" from="." to="." method="_on_FreeformNode_dragged"]
+[connection signal="gui_input" from="." to="." method="_on_FreeformNode_gui_input"]
+[connection signal="resize_request" from="." to="." method="_on_FreeformNode_resize_request"]
+[connection signal="tree_exited" from="." to="." method="_on_FreeformNode_tree_exited"]

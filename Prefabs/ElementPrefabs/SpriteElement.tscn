@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/SpriteElement.gd" type="Script" id=1]
+[ext_resource path="res://AppData/Icons/hexagon_switch.png" type="Texture" id=2]
+
+[node name="SpriteElement" type="Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+script = ExtResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[connection signal="pressed" from="." to="." method="_on_SpriteElement_pressed"]

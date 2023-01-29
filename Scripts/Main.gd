@@ -2,9 +2,14 @@ extends Control
 
 # Vars
 onready var startOverlay = $StartOverlay
-onready var seshDialogue: FileDialog = $SessionFileDialog
+onready var seshDialogue: FileDialog = $SessionFileDialog # Ahh the wonders of international spelling...
 onready var styleDialogue: PopupMenu = $StyleFileDialogue
-onready var saveAsDialogue: FileDialog = $SaveSessionDialog
+onready var saveAsDialogue: FileDialog = $SaveSessionDialogue
+onready var fileFinderDialogue: FileDialog = $FileFinderDialog
+
+onready var nodeContextMenu = $NodeContextMenu
+onready var nodeRenameDialogue = $NodeRenameDialogue
+onready var nodeRenameInput = $NodeRenameDialogue/LineEdit
 
 onready var categoryContainer = $Control/CategoryContainer
 onready var windowHeader = $HSplitContainer/ColorRect/WindowHeader
@@ -41,6 +46,8 @@ func _ready():
 	Globals.connect(Globals.createEntrySignal, self, "create_entry")
 	Globals.connect(Globals.viewEntrySignal, self, "view_entry")
 	Globals.connect(Globals.redrawAllSignal, self, "handle_redraw_all")
+	Globals.connect(Globals.requestContextMenuSignal, self, "context_menu_request")
+	Globals.connect(Globals.requestFileFinder, self, "assign_file_finder")
 	
 	# Local event signal subscription
 	AddAttributableBtn.get_popup().connect("id_pressed", self, "on_attributable_selected")
@@ -168,8 +175,7 @@ func rebuild_entities_container():
 	pass
 
 func rebuild_entity_container(windowType: int):
-	if entityCollectionContainer.get_child_count() > 0:
-		entityCollectionContainer.queue_free()
+	entityCollectionContainer.queue_free()
 	
 	assert(windowType in Globals.EntityWindow.values(), "The function argument is expected to be a Globals.EntityWindow index")
 	match windowType:
@@ -208,16 +214,6 @@ func view_entry(index: int):
 	pass
 
 func on_attributable_selected(index: int):
-	var windowName = Globals.style[Globals.windowIndex].window
-	var windowConfig = Globals.windowConfigs[windowName]
-	var option = windowConfig.fields[index]
-	print(option.header)
-	Session.data[Globals.windowIndex][Globals.entityIndex].append({
-		"header" : option.header,
-		"fieldIndex" : index,
-		"data" : []
-	})
-	
 	#TODO: Create element in scene
 	Globals.emit_signal(Globals.createEntityElementSignal, index)
 	pass
@@ -277,4 +273,38 @@ func _on_SaveSessionDialog_file_selected(path: String):
 
 func handle_redraw_all():
 	generate_window()
+	pass
+
+func context_menu_request(nodeIndex: int, nodePos: Vector2):
+	nodeContextMenu.set_position(nodePos)
+	nodeContextMenu.clear()
+	nodeContextMenu.add_separator("Options")
+	nodeContextMenu.add_item("Rename", nodeIndex)
+	nodeContextMenu.popup()
+	pass
+
+func _on_NodeContextMenu_index_pressed(index):
+	match index:
+		1: # Index 0 is a seperator
+			nodeRenameInput.clear()
+			var nodeIndex = nodeContextMenu.get_item_id(index)
+			nodeRenameDialogue.currentIndex = nodeIndex
+			nodeRenameDialogue.popup()
+			nodeRenameInput.grab_focus()
+			pass
+	pass
+
+func _on_NodeRenameDialogue_confirmed():
+	var entityData = Session.get_current_entity()
+	entityData[nodeRenameDialogue.currentIndex].header = nodeRenameInput.text
+	Globals.emit_signal(Globals.refreshNodeSignal)
+	pass
+
+func assign_file_finder(filterArray, access, mode, dialogue, title):
+	fileFinderDialogue.filters = filterArray
+	fileFinderDialogue.access = access
+	fileFinderDialogue.mode = mode
+	fileFinderDialogue.dialog_text = dialogue
+	fileFinderDialogue.window_title = title
+	fileFinderDialogue.popup()
 	pass

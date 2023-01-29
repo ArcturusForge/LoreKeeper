@@ -48,3 +48,6 @@ func load_data(path: String):
 	sessionName = path.get_file()
 	savePath = path
 	pass
+
+func get_current_entity():
+	return Session.data[Globals.windowIndex][Globals.entityIndex]

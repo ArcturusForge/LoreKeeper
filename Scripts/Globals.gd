@@ -17,6 +17,10 @@ const styleExtension = "lks"
 const saveExtension = "lore"
 const sessionNameDefault = "Untitled_Session"
 
+# Element Prefabs
+const hContainerPrefab = preload("res://Prefabs/ElementPrefabs/HContainerElement.tscn")
+const spritePrefab = preload("res://Prefabs/ElementPrefabs/SpriteElement.tscn")
+
 # Enums
 enum EntityWindow {DEFAULT, FREEFORM, GRAPH}
 
@@ -112,35 +116,54 @@ var styleConfigs = {}
 var windowConfigs = {}
 var elementConfigs = {}
 
-# Signals
+# Global Signals
 # Called when a category button is pressed.
-# Receives the category index.
-signal on_menu_selected(value1)
+signal on_menu_selected(categoryIndex)
 var menuSelectedSignal = "on_menu_selected"
 # Called when a new entity is created.
-# Receives window and the new entry index.
-signal on_create_entry(value1, value2)
+signal on_create_entry(windowIndex, entityIndex)
 var createEntrySignal = "on_create_entry"
 # Called when an entity button is pressed.
-# Receives the etity index.
-signal on_view_entry(value1)
+signal on_view_entry(entityIndex)
 var viewEntrySignal = "on_view_entry"
 # Called when the user creates an element inside an entity.
-# Receives the element index.
-signal create_entity_element(value1)
+signal create_entity_element(elementIndex)
 var createEntityElementSignal = "create_entity_element"
 # Called to repaint the entities list.
-# Receives no data.
 signal repaint_entities()
 var repaintEntitiesSignal = "repaint_entities"
 # Called to redraw the entity/ies ui.
-# Receives no data.
 signal redraw_all()
 var redrawAllSignal = "redraw_all"
+# Called to request a file finder.
+signal request_file_finder(filterArray, access, mode, dialogue, title)
+var requestFileFinder = "request_file_finder"
+# Called when a file finder has selected files.
+# Ensure listener is disconnected after receiving data.
+signal receive_file_finder(paths)
+var receiveFileFinder = "receive_file_finder"
+
+# Node Signals
+# Called whenever a node is deleted.
+signal closing_node(nodeIndex)
+var closeNodeSignal = "closing_node"
+# Called whenever a node is resized.
+signal resizing_node(nodeIndex, newSize)
+var resizeNodeSignal = "resizing_node"
+# Called whenever a node is repositioned.
+signal repositioning_node(nodeIndex, newPosition)
+var repositionNodeSignal = "repositioning_node"
+# Called whenver a context-menu request is made.
+signal requesting_context_menu(nodeIndex, menuPosition)
+var requestContextMenuSignal = "requesting_context_menu"
+# Called whenver a change was made to a node
+signal refreshing_node()
+var refreshNodeSignal = "refreshing_node"
 
 # Functions
 func set_default_style(name):
 	cacheDefault["style"] = name + "." + styleExtension
+	pass
 
 func check_folder_integrity():
 	var dir = Directory.new()
@@ -151,9 +174,7 @@ func check_folder_integrity():
 		dir.make_dir(Functions.os_path_convert(windowsPath))
 		dir.make_dir(Functions.os_path_convert(stylesPath))
 		dir.make_dir(Functions.os_path_convert(iconsPath))
-		#TEMP:
-		dir.make_dir(Functions.os_path_convert("res://AppData/Saves/"))
-		pass
+		return
 	
 	if not dir.dir_exists(Functions.os_path_convert(cachePath)):
 		dir.make_dir(Functions.os_path_convert(cachePath))
@@ -166,6 +187,7 @@ func check_folder_integrity():
 	
 	if not dir.dir_exists(Functions.os_path_convert(stylesPath)):
 		dir.make_dir(Functions.os_path_convert(stylesPath))
+	pass
 
 func check_defaults_integrity():
 	var dir = Directory.new()
@@ -196,3 +218,8 @@ func check_defaults_integrity():
 		file.open(Functions.os_path_convert(elementsPath) + "Image." + elementExtension, File.WRITE)
 		file.store_line(to_json(characterWindowDefault))
 		file.close()
+	pass
+
+func get_current_window():
+	var windowName = style[windowIndex].window
+	return windowConfigs[windowName]
