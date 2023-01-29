@@ -18,7 +18,6 @@ const saveExtension = "lore"
 const sessionNameDefault = "Untitled_Session"
 
 # Element Prefabs
-const hContainerPrefab = preload("res://Prefabs/ElementPrefabs/HContainerElement.tscn")
 const spritePrefab = preload("res://Prefabs/ElementPrefabs/SpriteElement.tscn")
 
 # Enums

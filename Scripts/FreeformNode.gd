@@ -31,16 +31,6 @@ func generate_fields():
 		
 		#TODO: add hContainer
 		#parent = hContainer
-		var container = Globals.hContainerPrefab.instance()
-		parent.add_child(container)
-		var i = 0
-		for index in range(0, constructor.size()):
-			i += 1
-			if i >= sepInterval && seperator != "":
-				#TODO: Create seperator label
-				i = 0
-			var inst = get_prefab(constructor[index])
-			parent.add_child(inst)
 		pass
 	else:
 		parent = self
