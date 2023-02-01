@@ -71,11 +71,6 @@ func _ready():
 	var styles = Functions.get_all_files(Globals.stylesPath, Globals.styleExtension)
 	for style in styles:
 		load_style_config(style)
-	
-	#TODO: Prompt session loader
-	#TEMP:
-	#start_new_session()
-	#load_existing_session("res://AppData/Saves/Untitled_Session.lore")
 	pass
 
 func load_existing_session(path: String):
@@ -108,7 +103,7 @@ func load_element_config(path: String):
 	file.open(path, File.READ)
 	Globals.elementConfigs[path.get_file()] = parse_json(file.get_as_text())
 	file.close()
-	pass #TODO:
+	pass
 
 func load_window_config(path: String):
 	var file = File.new()
@@ -167,7 +162,6 @@ func rebuild_entities_container():
 		var newViewBtn: Button = viewEntityBtn.instance()
 		entitiesCollectionContainer.add_child(newViewBtn)
 		newViewBtn.text = ent[0]["name"]
-		#TODO: Tie in a view function on click event
 	
 	# Generate an add entity button
 	var aEBtn = newEntityBtn.instance()
@@ -214,16 +208,12 @@ func view_entry(index: int):
 	pass
 
 func on_attributable_selected(index: int):
-	#TODO: Create element in scene
 	Globals.emit_signal(Globals.createEntityElementSignal, index)
 	pass
 
 func on_option_selected(index: int):
-	# TODO: add a save as option
 	match index:
 		0: # Save
-			#Session.save_data("res://AppData/Saves/")
-			#print("Saved session: " + Session.sessionName)
 			if Session.savePath == "":
 				saveAsDialogue.popup()
 			else:

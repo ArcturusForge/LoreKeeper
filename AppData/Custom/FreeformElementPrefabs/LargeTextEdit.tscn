@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://AppData/Custom/FreeformElementScripts/LargeTextElement.gd" type="Script" id=1]
+
+[node name="LargeTextEdit" type="TextEdit"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 435.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bookmark_gutter = true
+smooth_scrolling = true
+wrap_enabled = true
+script = ExtResource( 1 )
+
+[connection signal="text_changed" from="." to="." method="_on_LargeTextEdit_text_changed"]

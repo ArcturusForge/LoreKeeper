@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/SpriteElement.gd" type="Script" id=1]
+[ext_resource path="res://AppData/Custom/FreeformElementScripts/SpriteElement.gd" type="Script" id=1]
 [ext_resource path="res://AppData/Icons/hexagon_switch.png" type="Texture" id=2]
 
 [node name="SpriteElement" type="Button"]

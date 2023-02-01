@@ -1,68 +1,108 @@
 extends GraphNode
 
-var index
+var nodeIndex
 
 func _ready():
-	index = self.get_index() - 1
+	nodeIndex = self.get_index() - 1
 	Globals.connect(Globals.refreshNodeSignal, self, "refresh")
 	generate_fields()
+	pass
 
 func refresh():
-	self.title = Session.get_current_entity()[index].header
+	self.title = Session.get_current_entity()[nodeIndex].header
 	pass
 
 func generate_fields():
-	#TODO:
-	# - Read window data for if is list
-	# - Read element data to generate fields
 	var windowData = Globals.get_current_window()
-	var fieldData = windowData.fields[Session.get_current_entity()[index].fieldIndex]
+	var fieldData = windowData.fields[Session.get_current_entity()[nodeIndex].fieldIndex]
 	var elementData = Globals.elementConfigs[fieldData.type]
 	var constructor = elementData.construct
 	var sepInterval = elementData.seperatorInterval
 	var seperator = elementData.seperator
 	
-	var parent
-	if constructor.size() > 1: 
-		#TODO: 
-		# Figure out how to do this because right now it won't work.
-		# Session data won't track correctly in list formats and 
-		# sibling nodes won't identify the correct data.
+	var parent = self
+	var elementIndex = 0
+	
+	if fieldData.asList == true:
+		#TODO: Read exisiting listed elements.
+		#TODO: Generate a list container
+		#TODO: Loop generate_element and increment the elementIndex
+		var listNode = Globals.elementListPrefab.instance()
+		parent.add_child(listNode)
+		parent = listNode.get_node("GridContainer")
+		var entityData = Session.get_current_entity()
+		#for i in range(0, entityData[nodeIndex].data.size()): #PROPER
+		for i in range(0, 3): #TESTING
+			elementIndex = i
+			generate_element(parent, nodeIndex, elementIndex, constructor, seperator, sepInterval, true)
+		#TODO: Add an "Add new element to list" button
 		
-		#TODO: add hContainer
-		#parent = hContainer
 		pass
 	else:
-		parent = self
-		var inst = get_prefab(constructor[0])
-		parent.add_child(inst)
+		generate_element(parent, nodeIndex, elementIndex, constructor, seperator, sepInterval)
+	pass
+
+func generate_element(parent, nodeIndexParam:int, elementIndex:int, constructor, seperator, sepInterval, inList = false):
+	var segmentIndex = 0
 	
-	#TODO: Read session data
+	if constructor.size() > 1:
+		var segContainer = Globals.elementSegmentPrefab.instance()
+		parent.add_child(segContainer)
+		parent = segContainer
+		var sepCount = 0
+		for i in range(0, constructor.size()):
+			sepCount += 1
+			if sepCount >= sepInterval && seperator != "":
+				#TODO: generate seperator
+				sepCount = 0
+				pass
+			generate_segment(parent, nodeIndexParam, elementIndex, segmentIndex, constructor, inList)
+			segmentIndex += 1
+			pass
+	else:
+		generate_segment(parent, nodeIndexParam, elementIndex, segmentIndex, constructor, inList)
+	pass
+
+func generate_segment(parent, nodeIndexParam:int, elementIndex:int, segmentIndex:int, constructor, inList):
+	# Ensure session can hold data for node
+	var entityData = Session.get_current_entity()
+	if entityData[nodeIndexParam].data.size() <= elementIndex:
+		var segmentData = []
+		entityData[nodeIndexParam].data.append(segmentData)
+	
+	# Generate the only segment for this node
+	var inst = get_prefab(constructor[0])
+	inst.nodeIndex = nodeIndexParam
+	inst.elementIndex = elementIndex
+	inst.segmentIndex = segmentIndex
+	inst.inList = inList
+	parent.add_child(inst)
 	pass
 
 func get_prefab(type: String):
-	match type:
-		"sprite":
-			return Globals.spritePrefab.instance()
+	var windowData = Globals.get_current_window()
+	var fieldData = windowData.fields[Session.get_current_entity()[nodeIndex].fieldIndex]
+	var elementData = Globals.elementConfigs[fieldData.type]
+	return load("res://AppData/Custom/FreeformElementPrefabs/" + type).instance()
 
 func _on_FreeformNode_close_request():
-	Globals.emit_signal(Globals.closeNodeSignal, index)
+	Globals.emit_signal(Globals.closeNodeSignal, nodeIndex)
 	self.queue_free()
 	pass
 
 func _on_FreeformNode_resize_request(new_minsize):
 	self.rect_min_size = Vector2(0, 0)
 	self.rect_size = new_minsize
-	Globals.emit_signal(Globals.resizeNodeSignal, index, self.rect_size)
+	Globals.emit_signal(Globals.resizeNodeSignal, nodeIndex, self.rect_size)
 	pass
 
 func _on_FreeformNode_dragged(_from, _to):
-	Globals.emit_signal(Globals.repositionNodeSignal, index, self.offset)
+	Globals.emit_signal(Globals.repositionNodeSignal, nodeIndex, self.offset)
 	pass
 
 func _on_FreeformNode_gui_input(event):
 	if (event.is_pressed() and event.button_index == BUTTON_RIGHT):
-		Globals.emit_signal(Globals.requestContextMenuSignal, index, self.get_global_mouse_position())
+		Globals.emit_signal(Globals.requestContextMenuSignal, nodeIndex, self.get_global_mouse_position())
 	pass
 
 func _on_FreeformNode_tree_exited():

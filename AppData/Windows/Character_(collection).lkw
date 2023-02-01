@@ -14,9 +14,9 @@
 	  "prompt" : "Add Description",
 	  "icon" : "book_closed.png",
       "header" : "Description",
-      "description" : "Set charater description",
+      "description" : "Set character description",
 	  "asList" : false,
-      "type" : "Text.lke"
+      "type" : "LargeText.lke"
     },
     {
 	  "prompt" : "Add Gallery",

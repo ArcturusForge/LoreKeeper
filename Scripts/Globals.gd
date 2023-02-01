@@ -18,7 +18,10 @@ const saveExtension = "lore"
 const sessionNameDefault = "Untitled_Session"
 
 # Element Prefabs
-const spritePrefab = preload("res://Prefabs/ElementPrefabs/SpriteElement.tscn")
+const elementListPrefab = preload("res://Prefabs/ElementPrefabs/ElementScrollContainer.tscn")
+const elementSegmentPrefab = preload("res://Prefabs/ElementPrefabs/ElementSegmentContainer.tscn")
+#const spritePrefab = preload("res://Prefabs/ElementPrefabs/SpriteElement.tscn")
+#const largeTextPrefab = preload("res://Prefabs/ElementPrefabs/LargeTextEdit.tscn")
 
 # Enums
 enum EntityWindow {DEFAULT, FREEFORM, GRAPH}

@@ -1,0 +1,15 @@
+[gd_scene format=2]
+
+[node name="ElementScrollContainer" type="ScrollContainer"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 435.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="VFlowContainer" parent="."]
+margin_right = 419.0
+margin_bottom = 238.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
