@@ -1,5 +1,5 @@
 {
-  "construct" : ["string", "string"],
+  "construct" : ["TextEdit.tscn", "TextEdit.tscn"],
   "seperatorInterval" : 1,
-  "seperator" : " : "
+  "seperator" : ":"
 }

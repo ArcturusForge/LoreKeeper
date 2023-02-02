@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://AppData/Icons/flip_tails.png" type="Texture" id=1]
+
+[node name="DeleteElementButton" type="Button"]
+visible = false
+modulate = Color( 1, 1, 1, 0.196078 )
+anchor_right = 0.186
+anchor_bottom = 0.25
+margin_right = -0.464005
+rect_min_size = Vector2( 50, 50 )
+hint_tooltip = "Delete Element"
+icon = ExtResource( 1 )
+flat = true
+icon_align = 1
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}

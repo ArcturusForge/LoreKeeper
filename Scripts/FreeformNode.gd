@@ -5,6 +5,7 @@ var nodeIndex
 func _ready():
 	nodeIndex = self.get_index() - 1
 	Globals.connect(Globals.refreshNodeSignal, self, "refresh")
+	Globals.connect(Globals.removeElementSignal, self, "redraw_on_delete")
 	generate_fields()
 	pass
 
@@ -12,7 +13,16 @@ func refresh():
 	self.title = Session.get_current_entity()[nodeIndex].header
 	pass
 
+func redraw_on_delete(nodeIndex):
+	if self.nodeIndex == nodeIndex:
+		generate_fields()
+	pass
+
 func generate_fields():
+	if self.get_child_count() > 0:
+		for i in range(self.get_child_count() - 1, -1, -1):
+			self.get_child(i).queue_free()
+	
 	var windowData = Globals.get_current_window()
 	var fieldData = windowData.fields[Session.get_current_entity()[nodeIndex].fieldIndex]
 	var elementData = Globals.elementConfigs[fieldData.type]
@@ -27,12 +37,12 @@ func generate_fields():
 		#TODO: Read exisiting listed elements.
 		#TODO: Generate a list container
 		#TODO: Loop generate_element and increment the elementIndex
-		var listNode = Globals.elementListPrefab.instance()
+		var listNode = get_prefab(fieldData.listType)
 		parent.add_child(listNode)
-		parent = listNode.get_node("GridContainer")
+		parent = listNode.elementContainer
 		var entityData = Session.get_current_entity()
-		#for i in range(0, entityData[nodeIndex].data.size()): #PROPER
-		for i in range(0, 3): #TESTING
+		for i in range(0, entityData[nodeIndex].data.size()): #PROPER
+		#for i in range(0, 3): #TESTING
 			elementIndex = i
 			generate_element(parent, nodeIndex, elementIndex, constructor, seperator, sepInterval, true)
 		#TODO: Add an "Add new element to list" button

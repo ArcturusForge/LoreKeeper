@@ -7,6 +7,7 @@
       "header" : "General Info",
       "description" : "Create and set general traits",
 	  "asList" : true,
+	  "listType" : "ElementVerticalContainer.tscn",
       "type" : "Trait.lke",
       "listPrompt" : "Add Trait"
     },
@@ -24,6 +25,7 @@
       "header" : "Gallery",
       "description" : "Set charater images",
 	  "asList" : true,
+	  "listType" : "ElementGridContainer.tscn",
       "type" : "Image.lke",
       "listPrompt" : "Add Image"
     }

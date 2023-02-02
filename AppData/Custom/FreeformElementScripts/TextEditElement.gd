@@ -1,5 +1,5 @@
 #IMPORTANT: If functions you want are not showing up, change this to a specific type.
-extends Control 
+extends LineEdit 
 
 var nodeIndex # Assigned by freeform node to enable segmented elements.
 var elementIndex # Assigned by ffn to enable listed elements.
@@ -50,3 +50,18 @@ func delete_element():
 	pass
 
 # Write whatever funcs you need to operate the element type properly below.
+func _ready():
+	if _default_data_exists() == true && _custom_data_exists(2):
+		var data = _get_segment_data()
+		self.text = data[2]
+	else:
+		_set_default_data()
+	pass
+
+func _on_TextEdit_text_changed(new_text):
+	var data = _get_segment_data()
+	if _custom_data_exists(2):
+		data[2] = new_text
+	else:
+		data.append(new_text)
+	pass

@@ -41,6 +41,13 @@ func _custom_data_exists(dataIndex:int):
 	else:
 		return false
 
+# Removes the element data from a node and then causes a node redraw.
+func delete_element():
+	var entityData = Session.get_current_entity()
+	entityData[nodeIndex].data.remove(elementIndex)
+	Globals.emit_signal(Globals.removeElementSignal, nodeIndex)
+	pass
+
 # Write whatever funcs you need to operate the element type properly below.
 func _ready():
 	if _default_data_exists() == true && _custom_data_exists(2):

@@ -1,31 +1,5 @@
 extends Node
 
-# Paths
-var dataPath = "res://AppData/" #OR
-#var dataPath = "user://AppData/"
-var cachePath = dataPath + "Cache/"
-var elementsPath = dataPath + "Elements/"
-var stylesPath = dataPath + "Styles/"
-var windowsPath = dataPath + "Windows/"
-var iconsPath = dataPath + "Icons/"
-
-# Constants
-const configExtension = "lki"
-const elementExtension = "lke"
-const windowExtension = "lkw"
-const styleExtension = "lks"
-const saveExtension = "lore"
-const sessionNameDefault = "Untitled_Session"
-
-# Element Prefabs
-const elementListPrefab = preload("res://Prefabs/ElementPrefabs/ElementScrollContainer.tscn")
-const elementSegmentPrefab = preload("res://Prefabs/ElementPrefabs/ElementSegmentContainer.tscn")
-#const spritePrefab = preload("res://Prefabs/ElementPrefabs/SpriteElement.tscn")
-#const largeTextPrefab = preload("res://Prefabs/ElementPrefabs/LargeTextEdit.tscn")
-
-# Enums
-enum EntityWindow {DEFAULT, FREEFORM, GRAPH}
-
 # Defaults
 var cacheDefault = {
 	"style" : "Default." + styleExtension
@@ -108,6 +82,29 @@ var traitAttributeDefault = {
 	"seperator" : " : "
 }
 
+# Paths
+var dataPath = "res://AppData/" #OR
+#var dataPath = "user://AppData/"
+var cachePath = dataPath + "Cache/"
+var elementsPath = dataPath + "Elements/"
+var stylesPath = dataPath + "Styles/"
+var windowsPath = dataPath + "Windows/"
+var iconsPath = dataPath + "Icons/"
+
+# Constants
+const configExtension = "lki"
+const elementExtension = "lke"
+const windowExtension = "lkw"
+const styleExtension = "lks"
+const saveExtension = "lore"
+const sessionNameDefault = "Untitled_Session"
+
+# Element Prefabs
+const elementSegmentPrefab = preload("res://Prefabs/ElementPrefabs/ElementSegmentContainer.tscn")
+
+# Enums
+enum EntityWindow {DEFAULT, FREEFORM, GRAPH}
+
 # Data
 var style = {} # Data for the current style
 var currentStyle: String # Name of the current style
@@ -158,9 +155,17 @@ var repositionNodeSignal = "repositioning_node"
 # Called whenver a context-menu request is made.
 signal requesting_context_menu(nodeIndex, menuPosition)
 var requestContextMenuSignal = "requesting_context_menu"
-# Called whenver a change was made to a node
+# Called whenver a change was made to a node.
 signal refreshing_node()
 var refreshNodeSignal = "refreshing_node"
+
+# Element Signals
+# Called whenver an element is added to a node.
+signal adding_element(nodeIndex, elementIndex)
+var addElementSignal = "adding_element"
+# Called whenver an element is removed from a node.
+signal removing_element(nodeIndex)
+var removeElementSignal = "removing_element"
 
 # Functions
 func set_default_style(name):
