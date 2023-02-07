@@ -5,83 +5,6 @@ var cacheDefault = {
 	"style" : "Default." + styleExtension
 }
 
-var styleDefault = [
-	{
-		"category": "Characters",
-		"window": "Character_(collection).lkw",
-		"icon": "pawn.png",
-		"addIcon": "card_add.png"
-	},
-	{
-		"category": "Factions",
-		"window": "Character_(collection).lkw",
-		"icon": "crown_a.png",
-		"addIcon": "card_add.png"
-	},
-	{
-		"category": "Locations",
-		"window": "Character_(collection).lkw",
-		"icon": "flag_square.png",
-		"addIcon": "card_add.png"
-	},
-	{
-		"category": "Items",
-		"window": "Character_(collection).lkw",
-		"icon": "pouch.png",
-		"addIcon": "card_add.png"
-	},
-	{
-		"category": "Concepts",
-		"window": "Character_(collection).lkw",
-		"icon": "puzzle.png",
-		"addIcon": "card_add.png"
-	}
-]
-
-var characterWindowDefault = {
-  "format" : 1,
-  "fields" : [
-	{
-	  "prompt" : "Add General Info",
-	  "icon" : "notepad_write.png",
-	  "header" : "General Info",
-	  "description" : "Create and set general traits",
-	  "asList" : true,
-	  "type" : "Trait.lke",
-	  "listPrompt" : "Add Trait"
-	},
-	{
-	  "prompt" : "Add Description",
-	  "icon" : "book_closed.png",
-	  "header" : "Description",
-	  "description" : "Set charater description",
-	  "asList" : false,
-	  "type" : "Text.lke"
-	},
-	{
-	  "prompt" : "Add Gallery",
-	  "icon" : "pawns.png",
-	  "header" : "Gallery",
-	  "description" : "Set charater images",
-	  "asList" : true,
-	  "type" : "Image.lke",
-	  "listPrompt" : "Add Image"
-	}
-  ]
-}
-
-var imageAttributeDefault = {
-	"construct" : ["sprite"],
-	"seperatorInterval" : 0,
-	"seperator" : ""
-}
-
-var traitAttributeDefault = {
-	"construct" : ["string", "string"],
-	"seperatorInterval" : 1,
-	"seperator" : " : "
-}
-
 # Paths
 var dataPath = "res://AppData/" #OR
 #var dataPath = "user://AppData/"
@@ -101,6 +24,8 @@ const sessionNameDefault = "Untitled_Session"
 
 # Element Prefabs
 const elementSegmentPrefab = preload("res://Prefabs/ElementPrefabs/ElementSegmentContainer.tscn")
+const elementListBtnPrefab = preload("res://Prefabs/ElementPrefabs/AddListedElementButton.tscn")
+const elementSeperatorPrefab = preload("res://Prefabs/ElementPrefabs/ElementSeperator.tscn")
 
 # Enums
 enum EntityWindow {DEFAULT, FREEFORM, GRAPH}
@@ -161,7 +86,7 @@ var refreshNodeSignal = "refreshing_node"
 
 # Element Signals
 # Called whenver an element is added to a node.
-signal adding_element(nodeIndex, elementIndex)
+signal adding_element(nodeIndex, listParent, newElementIndex)
 var addElementSignal = "adding_element"
 # Called whenver an element is removed from a node.
 signal removing_element(nodeIndex)
@@ -200,31 +125,26 @@ func check_defaults_integrity():
 	var dir = Directory.new()
 	# Generate the default style files
 	if not dir.file_exists(Functions.os_path_convert(cachePath) + "config." + configExtension):
-		var file = File.new()
-		file.open(Functions.os_path_convert(cachePath) + "config." + configExtension, File.WRITE)
-		file.store_line(to_json(cacheDefault))
-		file.close()
+		Defaults.generate(Functions.os_path_convert(cachePath) + "config." + configExtension, cacheDefault)
 	
 	# Generate the default style files
 	if not dir.file_exists(Functions.os_path_convert(stylesPath) + "Default." + styleExtension):
-		var file = File.new()
-		file.open(Functions.os_path_convert(stylesPath) + "Default." + styleExtension, File.WRITE)
-		file.store_line(to_json(styleDefault))
-		file.close()
+		Defaults.generate(Functions.os_path_convert(stylesPath) + "Default." + styleExtension, Defaults.styleDefault)
 	
 	# Generate the default windows files
 	if not dir.file_exists(Functions.os_path_convert(windowsPath) + "Character_(collection)." + windowExtension):
-		var file = File.new()
-		file.open(Functions.os_path_convert(windowsPath) + "Character_(collection)." + windowExtension, File.WRITE)
-		file.store_line(to_json(characterWindowDefault))
-		file.close()
+		Defaults.generate(Functions.os_path_convert(windowsPath) + "Character_(collection)." + windowExtension, Defaults.characterWindowDefault)
 	
 	# Generate the default element files
 	if not dir.file_exists(Functions.os_path_convert(elementsPath) + "Image." + elementExtension):
-		var file = File.new()
-		file.open(Functions.os_path_convert(elementsPath) + "Image." + elementExtension, File.WRITE)
-		file.store_line(to_json(characterWindowDefault))
-		file.close()
+		Defaults.generate(Functions.os_path_convert(elementsPath) + "Image." + elementExtension, Defaults.imageAttributeDefault)
+	
+	if not dir.file_exists(Functions.os_path_convert(elementsPath) + "Trait." + elementExtension):
+		Defaults.generate(Functions.os_path_convert(elementsPath) + "Trait." + elementExtension, Defaults.traitAttributeDefault)
+	
+	if not dir.file_exists(Functions.os_path_convert(elementsPath) + "LargeText." + elementExtension):
+		Defaults.generate(Functions.os_path_convert(elementsPath) + "LargeText." + elementExtension, Defaults.lTextAttributeDefault)
+	
 	pass
 
 func get_current_window():

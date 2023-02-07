@@ -54,7 +54,7 @@ func delete_element():
 	pass
 
 # Write whatever funcs you need to operate the element type properly below.
-func _ready():	
+func _ready():
 	var elementData = _get_element_data()
 	# Load any existing data from the current session.
 	if elementData.size() > segmentIndex:

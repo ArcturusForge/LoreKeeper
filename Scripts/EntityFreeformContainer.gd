@@ -7,6 +7,8 @@ onready var graph = $GraphEdit
 onready var freeNode = preload("res://Prefabs/FreeformNode.tscn")
 
 func _ready():
+	graph.get_zoom_hbox().visible = false
+	
 	Globals.connect(Globals.createEntityElementSignal, self, "generate_element")
 	Globals.connect(Globals.closeNodeSignal, self, "deleted_node")
 	Globals.connect(Globals.resizeNodeSignal, self, "resized_node")
@@ -36,7 +38,6 @@ func generate_element(elementIndex: int):
 	pass
 
 func draw_element(data):
-	#TODO: read data and consturct/draw the specified element.
 	var node: GraphNode = freeNode.instance()
 	graph.add_child(node)
 	node.title = data.header
@@ -57,15 +58,15 @@ func _on_DeleteEntryBtn_pressed():
 	Globals.emit_signal(Globals.redrawAllSignal)
 	pass
 
-#TODO: node delete logic
 func deleted_node(index: int):
 	if index == 0: # data[0] is entity name
 		index += 1
 	var entityData = Session.get_current_entity()
 	entityData.remove(index)
+	# Emit signal to redraw the entity window to update all nodeIndex's.
+	Globals.emit_signal(Globals.viewEntrySignal, Globals.entityIndex)
 	pass
 
-#TODO: node resize logic
 func resized_node(index: int, size: Vector2):
 	if index == 0: # data[0] is entity name
 		index += 1
@@ -74,7 +75,6 @@ func resized_node(index: int, size: Vector2):
 	entityData[index].node.sizeY = size.y
 	pass
 
-#TODO: node movement logic
 func repositioned_node(index: int, pos: Vector2):
 	if index == 0: # data[0] is entity name
 		print ("adding")

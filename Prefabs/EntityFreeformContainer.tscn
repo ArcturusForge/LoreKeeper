@@ -56,7 +56,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_offset = Vector2( 0, -14 )
 use_snap = false
-zoom_step = 1.1
+zoom_step = 1.0
 minimap_size = Vector2( 120, 80 )
 
 [connection signal="tree_exited" from="." to="." method="_on_EntityFreeformContainer_tree_exited"]

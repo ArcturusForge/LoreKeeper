@@ -1,10 +1,12 @@
-#IMPORTANT: If functions you want are not showing up, change this to a specific type.
-extends LineEdit 
+extends TextEdit
 
 var nodeIndex # Assigned by freeform node to enable segmented elements.
 var elementIndex # Assigned by ffn to enable listed elements.
 var segmentIndex # Assigned by ffn to enable segmented elements.
 var inList # Assigned by ffn to determine list display settings.
+
+onready var deleteBtn = $DeleteElementButton
+var hideCounter = 0
 
 # Returns the current entity's session data
 func _get_element_data():
@@ -51,6 +53,9 @@ func delete_element():
 
 # Write whatever funcs you need to operate the element type properly below.
 func _ready():
+	if inList:
+		self.rect_min_size = Vector2(0,100)
+	
 	if _default_data_exists() == true && _custom_data_exists(2):
 		var data = _get_segment_data()
 		self.text = data[2]
@@ -58,10 +63,28 @@ func _ready():
 		_set_default_data()
 	pass
 
-func _on_TextEdit_text_changed(new_text):
+func _process(delta):
+	if deleteBtn.visible == true:
+		hideCounter += delta
+		if hideCounter >= 1.5:
+			deleteBtn.visible = false
+	pass
+
+func _on_LargeTextEdit_text_changed():
 	var data = _get_segment_data()
 	if _custom_data_exists(2):
-		data[2] = new_text
+		data[2] = self.text
 	else:
-		data.append(new_text)
+		data.append(self.text)
+	pass
+
+func _on_DeleteElementButton_pressed():
+	delete_element()
+	pass
+
+func _on_LargeTextEdit_mouse_entered():
+	if inList:
+		if segmentIndex == 0:
+			deleteBtn.visible = true
+			hideCounter = 0
 	pass

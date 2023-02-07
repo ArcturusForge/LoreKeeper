@@ -6,6 +6,7 @@ func _ready():
 	nodeIndex = self.get_index() - 1
 	Globals.connect(Globals.refreshNodeSignal, self, "refresh")
 	Globals.connect(Globals.removeElementSignal, self, "redraw_on_delete")
+	Globals.connect(Globals.addElementSignal, self, "add_listed_element")
 	generate_fields()
 	pass
 
@@ -16,6 +17,27 @@ func refresh():
 func redraw_on_delete(nodeIndex):
 	if self.nodeIndex == nodeIndex:
 		generate_fields()
+	pass
+
+func add_listed_element(listNodeIndex, listParent, newElementIndex):
+	# This check stops data duplication across listed nodes.
+	if not listNodeIndex == self.nodeIndex:
+		return
+	
+	var windowData = Globals.get_current_window()
+	var fieldData = windowData.fields[Session.get_current_entity()[nodeIndex].fieldIndex]
+	var elementData = Globals.elementConfigs[fieldData.type]
+	var constructor = elementData.construct
+	var sepInterval = elementData.seperatorInterval
+	var seperator = elementData.seperator
+	generate_element(listParent, listNodeIndex, newElementIndex, constructor, seperator, sepInterval, true)
+	
+	var addBtn = Globals.elementListBtnPrefab.instance()
+	addBtn.nodeIndex = nodeIndex
+	addBtn.listParent = listParent
+	addBtn.listElementIndex = newElementIndex + 1
+	addBtn.text = fieldData.listPrompt
+	listParent.add_child(addBtn)
 	pass
 
 func generate_fields():
@@ -34,19 +56,20 @@ func generate_fields():
 	var elementIndex = 0
 	
 	if fieldData.asList == true:
-		#TODO: Read exisiting listed elements.
-		#TODO: Generate a list container
-		#TODO: Loop generate_element and increment the elementIndex
 		var listNode = get_prefab(fieldData.listType)
 		parent.add_child(listNode)
 		parent = listNode.elementContainer
 		var entityData = Session.get_current_entity()
-		for i in range(0, entityData[nodeIndex].data.size()): #PROPER
-		#for i in range(0, 3): #TESTING
+		for i in range(0, entityData[nodeIndex].data.size()):
 			elementIndex = i
 			generate_element(parent, nodeIndex, elementIndex, constructor, seperator, sepInterval, true)
-		#TODO: Add an "Add new element to list" button
-		
+		# Add an "Add new element to list" button
+		var addBtn = Globals.elementListBtnPrefab.instance()
+		addBtn.nodeIndex = nodeIndex
+		addBtn.listParent = parent
+		addBtn.listElementIndex = elementIndex
+		addBtn.text = fieldData.listPrompt
+		parent.add_child(addBtn)
 		pass
 	else:
 		generate_element(parent, nodeIndex, elementIndex, constructor, seperator, sepInterval)
@@ -61,11 +84,14 @@ func generate_element(parent, nodeIndexParam:int, elementIndex:int, constructor,
 		parent = segContainer
 		var sepCount = 0
 		for i in range(0, constructor.size()):
-			sepCount += 1
 			if sepCount >= sepInterval && seperator != "":
-				#TODO: generate seperator
+				# Generate seperator
+				var sepInst = Globals.elementSeperatorPrefab.instance()
+				sepInst.text = seperator
+				parent.add_child(sepInst)
 				sepCount = 0
 				pass
+			sepCount += 1
 			generate_segment(parent, nodeIndexParam, elementIndex, segmentIndex, constructor, inList)
 			segmentIndex += 1
 			pass
@@ -93,7 +119,7 @@ func get_prefab(type: String):
 	var windowData = Globals.get_current_window()
 	var fieldData = windowData.fields[Session.get_current_entity()[nodeIndex].fieldIndex]
 	var elementData = Globals.elementConfigs[fieldData.type]
-	return load("res://AppData/Custom/FreeformElementPrefabs/" + type).instance()
+	return load("res://AppData/Custom/FreeformElements/Prefabs/" + type).instance()
 
 func _on_FreeformNode_close_request():
 	Globals.emit_signal(Globals.closeNodeSignal, nodeIndex)

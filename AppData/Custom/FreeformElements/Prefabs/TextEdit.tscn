@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://AppData/Custom/FreeformElementScripts/TextEditElement.gd" type="Script" id=1]
+[ext_resource path="res://AppData/Custom/FreeformElements/Scripts/TextEditElement.gd" type="Script" id=1]
 [ext_resource path="res://Prefabs/ElementPrefabs/DeleteElementButton.tscn" type="PackedScene" id=2]
 
 [node name="TextEdit" type="LineEdit"]
@@ -20,4 +20,6 @@ anchor_bottom = 1.542
 margin_right = -0.0450058
 margin_bottom = -0.00800323
 
+[connection signal="mouse_entered" from="." to="." method="_on_TextEdit_mouse_entered"]
 [connection signal="text_changed" from="." to="." method="_on_TextEdit_text_changed"]
+[connection signal="pressed" from="DeleteElementButton" to="." method="_on_DeleteElementButton_pressed"]

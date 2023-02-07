@@ -5,7 +5,6 @@
 	  "prompt" : "Add General Info",
 	  "icon" : "notepad_write.png",
       "header" : "General Info",
-      "description" : "Create and set general traits",
 	  "asList" : true,
 	  "listType" : "ElementVerticalContainer.tscn",
       "type" : "Trait.lke",
@@ -15,7 +14,6 @@
 	  "prompt" : "Add Description",
 	  "icon" : "book_closed.png",
       "header" : "Description",
-      "description" : "Set character description",
 	  "asList" : false,
       "type" : "LargeText.lke"
     },
@@ -23,11 +21,17 @@
 	  "prompt" : "Add Gallery",
 	  "icon" : "pawns.png",
       "header" : "Gallery",
-      "description" : "Set charater images",
 	  "asList" : true,
 	  "listType" : "ElementGridContainer.tscn",
       "type" : "Image.lke",
       "listPrompt" : "Add Image"
+    },
+    {
+	  "prompt" : "Add Portrait",
+	  "icon" : "character.png",
+      "header" : "Portrait",
+	  "asList" : false,
+      "type" : "Image.lke"
     }
   ]
 }

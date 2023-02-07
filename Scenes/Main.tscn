@@ -120,7 +120,7 @@ icon = ExtResource( 4 )
 flat = false
 icon_align = 1
 expand_icon = true
-items = [ "Save", null, 0, false, false, 0, 0, null, "", false, "Load", null, 0, false, false, 1, 0, null, "", false, "New", null, 0, false, false, 2, 0, null, "", false ]
+items = [ "Save", null, 0, false, false, 0, 0, null, "", false, "Save As", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Load", null, 0, false, false, 3, 0, null, "", false, "New", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="AddAttributableButton" type="MenuButton" parent="Control"]
 anchor_left = 0.927734

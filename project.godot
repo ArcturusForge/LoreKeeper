@@ -19,6 +19,7 @@ config/icon="res://icon.png"
 Globals="*res://Scripts/Globals.gd"
 Functions="*res://Scripts/Functions.gd"
 Session="*res://Scripts/Session.gd"
+Defaults="*res://Scripts/Defaults.gd"
 
 [gui]
 

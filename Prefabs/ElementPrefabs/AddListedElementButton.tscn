@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/AddListedElementButton.gd" type="Script" id=1]
+
+[node name="AddListedElementBtn" type="Button"]
+anchor_right = 0.012
+anchor_bottom = 0.033
+margin_right = -0.288
+margin_bottom = 0.200001
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="pressed" from="." to="." method="_on_AddListedElementBtn_pressed"]

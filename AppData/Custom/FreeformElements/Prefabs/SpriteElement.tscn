@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://AppData/Custom/FreeformElementScripts/SpriteElement.gd" type="Script" id=1]
+[ext_resource path="res://AppData/Custom/FreeformElements/Scripts/SpriteElement.gd" type="Script" id=1]
 [ext_resource path="res://AppData/Icons/hexagon_switch.png" type="Texture" id=2]
 [ext_resource path="res://Prefabs/ElementPrefabs/DeleteElementButton.tscn" type="PackedScene" id=3]
 

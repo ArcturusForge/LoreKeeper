@@ -218,9 +218,12 @@ func on_option_selected(index: int):
 				saveAsDialogue.popup()
 			else:
 				Session.quick_save()
-		1: # Load
+		1: # Save As
+			saveAsDialogue.popup()
+		#2: Seperator 
+		3: # Load
 			seshDialogue.popup()
-		2: # New
+		4: # New
 			_on_NewButton_pressed()
 
 func _on_SessionFileDialog_file_selected(path: String):
