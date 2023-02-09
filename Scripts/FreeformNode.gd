@@ -35,7 +35,8 @@ func add_listed_element(listNodeIndex, listParent, newElementIndex):
 	var addBtn = Globals.elementListBtnPrefab.instance()
 	addBtn.nodeIndex = nodeIndex
 	addBtn.listParent = listParent
-	addBtn.listElementIndex = newElementIndex + 1
+	var entityData = Session.get_current_entity()
+	addBtn.listElementIndex = entityData[nodeIndex].data.size()
 	addBtn.text = fieldData.listPrompt
 	listParent.add_child(addBtn)
 	pass
@@ -67,7 +68,8 @@ func generate_fields():
 		var addBtn = Globals.elementListBtnPrefab.instance()
 		addBtn.nodeIndex = nodeIndex
 		addBtn.listParent = parent
-		addBtn.listElementIndex = elementIndex
+		addBtn.listElementIndex = entityData[nodeIndex].data.size()
+		print(str(addBtn.listElementIndex))
 		addBtn.text = fieldData.listPrompt
 		parent.add_child(addBtn)
 		pass
@@ -119,7 +121,10 @@ func get_prefab(type: String):
 	var windowData = Globals.get_current_window()
 	var fieldData = windowData.fields[Session.get_current_entity()[nodeIndex].fieldIndex]
 	var elementData = Globals.elementConfigs[fieldData.type]
-	return load("res://AppData/Custom/FreeformElements/Prefabs/" + type).instance()
+	if Functions.is_app():
+		return load(Functions.os_path_convert("res://AppData/Custom/FreeformElements/Prefabs/" + type)).instance()
+	else:
+		return load("res://AppData/Custom/FreeformElements/Prefabs/" + type).instance()
 
 func _on_FreeformNode_close_request():
 	Globals.emit_signal(Globals.closeNodeSignal, nodeIndex)

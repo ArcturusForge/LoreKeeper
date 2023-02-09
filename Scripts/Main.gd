@@ -1,6 +1,8 @@
 extends Control
 
 # Vars
+onready var app_bg = $AppBg
+
 onready var startOverlay = $StartOverlay
 onready var seshDialogue: FileDialog = $SessionFileDialog # Ahh the wonders of international spelling...
 onready var styleDialogue: PopupMenu = $StyleFileDialogue
@@ -56,6 +58,15 @@ func _ready():
 	# Check for directory and defaults integrity
 	Globals.check_folder_integrity()
 	Globals.check_defaults_integrity()
+	
+	var file = File.new()
+	if Functions.is_app():
+		file.open(Functions.os_path_convert(Globals.cachePath + "config.lki"), File.READ)
+	else:
+		file.open(Globals.cachePath + "config.lki", File.READ)
+	var cache = parse_json(file.get_as_text())
+	file.close()
+	app_bg.texture = Functions.load_image_from_encode(cache.extension, cache.bg)
 	
 	# Locate and iterate over every element type
 	var elements = Functions.get_all_files(Globals.elementsPath, Globals.elementExtension)

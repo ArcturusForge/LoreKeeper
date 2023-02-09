@@ -17,6 +17,15 @@
 	  "asList" : false,
       "type" : "LargeText.lke"
     },
+	{
+	  "prompt" : "Add Field Info",
+	  "icon" : "pentagon_question.png",
+      "header" : "Fields",
+	  "asList" : true,
+	  "listType" : "ElementVerticalContainer.tscn",
+      "type" : "SmallText.lke",
+      "listPrompt" : "Add Field"
+    },
     {
 	  "prompt" : "Add Gallery",
 	  "icon" : "pawns.png",

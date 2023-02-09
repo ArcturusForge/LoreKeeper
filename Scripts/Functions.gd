@@ -4,7 +4,7 @@ extends Node
 func get_all_files(path: String, file_ext := "", use_full_path:= true, files := []):
 	var dir = Directory.new()
 	
-	if OS.has_feature("standalone"):
+	if Functions.is_app():
 		path = Functions.os_path_convert(path)
 	
 	if dir.open(path) == OK:
@@ -76,3 +76,6 @@ func os_path_convert(path: String):
 	elif "user://" in path:
 		return path.replace("user:/", OS.get_user_data_dir())
 	return path
+
+func is_app():
+	return OS.has_feature("standalone")

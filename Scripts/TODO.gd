@@ -3,9 +3,9 @@ extends Control
 
 # -/ Close button on text elements
 # -/ Horizontal list container
+# -/?DisabledZoom? Block mouse scroll on freeformContainer
+# - Convert app bg to style data
+# - Store graph position in session data
 # - Add styles for the categories
-# - Block mouse scroll on freeformContainer
 # - Add options shortcuts
 # - Dynamically add options to entity popup menu
-# - Store graph position in session data
-# - Convert app bg to style data

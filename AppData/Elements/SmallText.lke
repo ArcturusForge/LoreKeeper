@@ -1,0 +1,5 @@
+{
+  "construct" : ["TextEdit.tscn"],
+  "seperatorInterval" : 0,
+  "seperator" : ""
+}
