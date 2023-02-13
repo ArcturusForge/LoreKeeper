@@ -1,0 +1,19 @@
+{
+  "format" : 1,
+  "fields" : [
+    {
+	  "prompt" : "Add TutorialBox",
+	  "icon" : "book_closed.png",
+      "header" : "TutorialBox",
+	  "asList" : false,
+      "type" : "LargeText.lke"
+    },
+    {
+	  "prompt" : "Add TutorialImage",
+	  "icon" : "character.png",
+      "header" : "TutorialImage",
+	  "asList" : false,
+      "type" : "Image.lke"
+    }
+  ]
+}

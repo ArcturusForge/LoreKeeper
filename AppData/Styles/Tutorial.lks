@@ -1,0 +1,8 @@
+[
+    {
+        "category": "Tutorial",
+        "window": "TutWindow.lkw",
+        "icon": "dice_question.png",
+		"addIcon": "card_add.png"
+    }
+]

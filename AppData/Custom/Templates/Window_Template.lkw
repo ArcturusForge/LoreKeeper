@@ -1,0 +1,23 @@
+{
+  "format" : 1,
+  "fields" : [
+    {
+	  "prompt" : "[Option Prompt Here]",
+	  "icon" : "[Icon Name Here With Extension]",
+      "header" : "[Option Header Here]",
+	  "type" : "[Element Type Here].lke",
+	  "asList" : true/false,
+	  "listType" : "[List Prefab Here].tscn",
+      "listPrompt" : "[Add-Button Text Here]"
+    },
+    {
+	  "prompt" : "[Option Prompt Here]",
+	  "icon" : "[Icon Name Here With Extension]",
+      "header" : "[Option Header Here]",
+	  "type" : "[Element Type Here].lke",
+	  "asList" : true/false,
+	  "listType" : "[List Prefab Here].tscn",
+      "listPrompt" : "[Add-Button Text Here]"
+    }
+  ]
+}

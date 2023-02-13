@@ -1,0 +1,8 @@
+{
+  "construct" : [
+		"[Element Prefab Here].tscn", 
+		"[Optional Extra Prefabs].tscn"
+	],
+  "seperatorInterval" : 0,
+  "seperator" : ""
+}
