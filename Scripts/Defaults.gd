@@ -53,6 +53,15 @@ var characterWindowDefault = {
 	  "type" : "LargeText.lke"
 	},
 	{
+	  "prompt" : "Add Field Info",
+	  "icon" : "pentagon_question.png",
+	  "header" : "Fields",
+	  "asList" : true,
+	  "listType" : "ElementVerticalContainer.tscn",
+	  "type" : "SmallText.lke",
+	  "listPrompt" : "Add Field"
+	},
+	{
 	  "prompt" : "Add Gallery",
 	  "icon" : "pawns.png",
 	  "header" : "Gallery",
@@ -85,6 +94,12 @@ var traitAttributeDefault = {
 
 var lTextAttributeDefault = {
   "construct" : ["LargeTextEdit.tscn"],
+  "seperatorInterval" : 0,
+  "seperator" : ""
+}
+
+var sTextAttributeDefault = {
+  "construct" : ["TextEdit.tscn"],
   "seperatorInterval" : 0,
   "seperator" : ""
 }

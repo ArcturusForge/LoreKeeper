@@ -7,11 +7,19 @@ func _ready():
 	Globals.connect(Globals.refreshNodeSignal, self, "refresh")
 	Globals.connect(Globals.removeElementSignal, self, "redraw_on_delete")
 	Globals.connect(Globals.addElementSignal, self, "add_listed_element")
+	Globals.connect(Globals.closeNodeSignal, self, "handle_sibling_delete")
 	generate_fields()
 	pass
 
 func refresh():
 	self.title = Session.get_current_entity()[nodeIndex].header
+	pass
+
+# Called when a sibling node is deleted from the entity.
+func handle_sibling_delete(siblingNodeIndex):
+	if siblingNodeIndex < self.nodeIndex:
+		nodeIndex -= 1
+		generate_fields()
 	pass
 
 func redraw_on_delete(nodeIndex):
@@ -64,7 +72,7 @@ func generate_fields():
 		for i in range(0, entityData[nodeIndex].data.size()):
 			elementIndex = i
 			generate_element(parent, nodeIndex, elementIndex, constructor, seperator, sepInterval, true)
-		# Add an "Add new element to list" button
+		# Adds an "Add new element to list" button
 		var addBtn = Globals.elementListBtnPrefab.instance()
 		addBtn.nodeIndex = nodeIndex
 		addBtn.listParent = parent
@@ -127,6 +135,7 @@ func get_prefab(type: String):
 		return load("res://AppData/Custom/FreeformElements/Prefabs/" + type).instance()
 
 func _on_FreeformNode_close_request():
+	Globals.disconnect(Globals.closeNodeSignal, self, "handle_sibling_delete")
 	Globals.emit_signal(Globals.closeNodeSignal, nodeIndex)
 	self.queue_free()
 	pass
@@ -143,7 +152,25 @@ func _on_FreeformNode_dragged(_from, _to):
 
 func _on_FreeformNode_gui_input(event):
 	if (event.is_pressed() and event.button_index == BUTTON_RIGHT):
-		Globals.emit_signal(Globals.requestContextMenuSignal, nodeIndex, self.get_global_mouse_position())
+		#Globals.emit_signal(Globals.requestContextMenuSignal, nodeIndex, self.get_global_mouse_position())
+		Globals.emit_signal(Globals.requestContextMenuSignal, self)
+	pass
+
+func handle_popup(contextMenu:PopupMenu):
+	contextMenu.connect("id_pressed", self, "handle_popup_selection")
+	contextMenu.set_position(self.get_global_mouse_position())
+	contextMenu.clear()
+	contextMenu.add_separator("Options")
+	contextMenu.add_item("Rename", 0)
+	contextMenu.popup()
+	pass
+
+func handle_popup_selection(id):
+	Globals.emit_signal(Globals.disconnectContextMenuSignal, self, "id_pressed", "handle_popup_selection")
+	match id:
+		0: 
+			Globals.emit_signal(Globals.requestNodeRenameSignal, nodeIndex, self.title, self.get_global_mouse_position())
+			pass
 	pass
 
 func _on_FreeformNode_tree_exited():

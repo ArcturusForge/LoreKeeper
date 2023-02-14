@@ -52,7 +52,7 @@ func load_image_and_encode(path:String):
 func load_image_from_encode(extension:String, encodedImage:String):
 	var image = Image.new()
 	var texture = ImageTexture.new()
-	match extension:
+	match extension.to_lower():
 		"png":
 			image.load_png_from_buffer(Marshalls.base64_to_raw(encodedImage))
 		"jpg":
@@ -79,3 +79,10 @@ func os_path_convert(path: String):
 
 func is_app():
 	return OS.has_feature("standalone")
+
+func set_app_name(needsSaving:bool = false):
+	if not needsSaving:
+		OS.set_window_title(Globals.appName + " - " + Session.sessionName)
+	else:
+		OS.set_window_title(Globals.appName + " - " + Session.sessionName + "*")
+	pass

@@ -52,19 +52,19 @@ func _on_EntityName_text_entered(new_text):
 	Globals.emit_signal(Globals.repaintEntitiesSignal)
 	pass
 
+# Called when you delete an entity under a category.
 func _on_DeleteEntryBtn_pressed():
-	# TODO: Make are you sure popup
+	#TODO: Make an "are you sure" popup
 	Session.data[Globals.windowIndex].remove(Globals.entityIndex)
 	Globals.emit_signal(Globals.redrawAllSignal)
 	pass
 
+# Called when you delete a node inside an entity.
 func deleted_node(index: int):
 	if index == 0: # data[0] is entity name
 		index += 1
 	var entityData = Session.get_current_entity()
 	entityData.remove(index)
-	# Emit signal to redraw the entity window to update all nodeIndex's.
-	Globals.emit_signal(Globals.viewEntrySignal, Globals.entityIndex)
 	pass
 
 func resized_node(index: int, size: Vector2):

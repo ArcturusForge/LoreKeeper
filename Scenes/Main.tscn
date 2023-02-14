@@ -208,6 +208,7 @@ margin_left = 0.139984
 margin_top = -0.200005
 margin_right = -0.140015
 margin_bottom = 0.199982
+items = [ "Item 0", null, 0, false, false, 4096, 0, null, "", false ]
 
 [node name="SessionFileDialog" type="FileDialog" parent="."]
 anchor_left = 0.346
@@ -284,10 +285,9 @@ script = ExtResource( 11 )
 
 [connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" to="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" method="_on_LoadButton_pressed"]
 [connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/NewButton" to="." method="_on_NewButton_pressed"]
-[connection signal="index_pressed" from="StyleFileDialogue" to="." method="_on_StyleFileDialogue_index_pressed"]
+[connection signal="id_pressed" from="StyleFileDialogue" to="." method="_on_StyleFileDialogue_id_pressed"]
 [connection signal="file_selected" from="SessionFileDialog" to="." method="_on_SessionFileDialog_file_selected"]
 [connection signal="file_selected" from="SaveSessionDialogue" to="." method="_on_SaveSessionDialog_file_selected"]
-[connection signal="index_pressed" from="NodeContextMenu" to="." method="_on_NodeContextMenu_index_pressed"]
 [connection signal="confirmed" from="NodeRenameDialogue" to="." method="_on_NodeRenameDialogue_confirmed"]
 [connection signal="text_entered" from="NodeRenameDialogue/LineEdit" to="NodeRenameDialogue" method="_on_LineEdit_text_entered"]
 [connection signal="file_selected" from="FileFinderDialog" to="FileFinderDialog" method="_on_FileFinderDialog_file_selected"]

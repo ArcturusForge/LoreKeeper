@@ -43,12 +43,23 @@ func _ready():
 	entitiesCollectionContainer = $HSplitContainer/ColorRect/EntitiesControl/collectionContainer
 	entityCollectionContainer = $HSplitContainer/ColorRect2/EntityControl/collectionContainer
 	
+	# Save
+	set_options_shortcut(0, KEY_S, true)
+	# Save As
+	set_options_shortcut(1, KEY_S, true, true)
+	# Load
+	set_options_shortcut(3, KEY_L, true)
+	# New
+	set_options_shortcut(4, KEY_N, true)
+	
 	# Global event signal subscription
 	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
 	Globals.connect(Globals.createEntrySignal, self, "create_entry")
 	Globals.connect(Globals.viewEntrySignal, self, "view_entry")
 	Globals.connect(Globals.redrawAllSignal, self, "handle_redraw_all")
 	Globals.connect(Globals.requestContextMenuSignal, self, "context_menu_request")
+	Globals.connect(Globals.disconnectContextMenuSignal, self, "disconnect_from_context_menu")
+	Globals.connect(Globals.requestNodeRenameSignal, self, "node_rename_dialogue_request")
 	Globals.connect(Globals.requestFileFinder, self, "assign_file_finder")
 	
 	# Local event signal subscription
@@ -84,10 +95,21 @@ func _ready():
 		load_style_config(style)
 	pass
 
+func set_options_shortcut(optionIndex, scancode, useControl:bool = true, useShift:bool = false):
+	var shortcut = ShortCut.new()
+	var inputKey = InputEventKey.new()
+	inputKey.set_scancode(scancode)
+	inputKey.control = useControl
+	inputKey.shift = useShift
+	shortcut.set_shortcut(inputKey)
+	OptionsBtn.get_popup().set_item_shortcut(optionIndex, shortcut, true)
+	pass
+
 func load_existing_session(path: String):
 	Session.load_data(path)
 	select_style(Session.styleUsed)
 	display_style()
+	Functions.set_app_name()
 	pass
 
 func start_new_session():
@@ -99,6 +121,7 @@ func start_new_session():
 		Session.data.append(dat)
 	
 	display_style()
+	Functions.set_app_name()
 	pass
 
 func parse_config(data):	
@@ -126,12 +149,22 @@ func load_window_config(path: String):
 func load_style_config(path: String):
 	var file = File.new()
 	file.open(path, File.READ)
-	Globals.styleConfigs[path.get_file()] = parse_json(file.get_as_text())
+	
+	var fileName:String = path.get_file()
+	var hide = false
+	if fileName[0] == '~':
+		fileName = fileName.replace("~", "")
+		hide = true
+	
+	Globals.styleConfigs[fileName] = {
+		"hidden" : hide,
+		"data" : parse_json(file.get_as_text())
+	}
 	file.close()
 	pass
 
 func select_style(fileName: String):
-	Globals.style = Globals.styleConfigs[fileName]
+	Globals.style = Globals.styleConfigs[fileName].data
 	Globals.currentStyle = fileName
 	pass
 
@@ -244,6 +277,10 @@ func _on_SessionFileDialog_file_selected(path: String):
 	pass
 
 func _on_NewButton_pressed():
+	generate_style_options(false)
+	pass
+
+func generate_style_options(showHidden:bool):
 	styleDialogue.clear()
 	styleDialogue.add_separator("Select Style")
 	if Globals.styleConfigs.size() == 0:
@@ -256,14 +293,30 @@ func _on_NewButton_pressed():
 			parse_config(parse_json(file.get_as_text()))
 			file.close()
 	else:
+		var id = 0
 		for style in Globals.styleConfigs.keys():
-			styleDialogue.add_item(style)
+			if not Globals.styleConfigs[style].hidden || showHidden:
+				styleDialogue.add_item(style, id)
+			id += 1
+		styleDialogue.add_separator("Extras")
+		if not showHidden:
+			styleDialogue.add_item("Show Hidden", 4096)
+		else:
+			styleDialogue.add_item("Hide Hidden", 4095)
 		styleDialogue.popup()
 	pass
 
-func _on_StyleFileDialogue_index_pressed(index):
-	index -= 1
-	var style = Globals.styleConfigs.keys()[index]
+func _on_StyleFileDialogue_id_pressed(id):
+	if id == 4096:
+		yield(get_tree().create_timer(0.01), "timeout")
+		generate_style_options(true)
+		return
+	elif id == 4095:
+		yield(get_tree().create_timer(0.01), "timeout")
+		generate_style_options(false)
+		return
+	
+	var style = Globals.styleConfigs.keys()[id]
 	select_style(style)
 	start_new_session()
 	startOverlay.visible = false
@@ -273,30 +326,25 @@ func _on_SaveSessionDialog_file_selected(path: String):
 	print("saving: " + path)
 	Session.sessionName = path.get_file()
 	Session.save_data(path)
+	Functions.set_app_name()
 	pass
 
-func handle_redraw_all():
+func handle_redraw_all(windowOffset:Vector2):###
 	generate_window()
 	pass
 
-func context_menu_request(nodeIndex: int, nodePos: Vector2):
-	nodeContextMenu.set_position(nodePos)
-	nodeContextMenu.clear()
-	nodeContextMenu.add_separator("Options")
-	nodeContextMenu.add_item("Rename", nodeIndex)
-	nodeContextMenu.popup()
-	pass
+func context_menu_request(requesteeNode):
+	requesteeNode.handle_popup(nodeContextMenu)
 
-func _on_NodeContextMenu_index_pressed(index):
-	match index:
-		1: # Index 0 is a seperator
-			nodeRenameInput.clear()
-			var nodeIndex = nodeContextMenu.get_item_id(index)
-			nodeRenameDialogue.currentIndex = nodeIndex
-			nodeRenameDialogue.popup()
-			nodeRenameInput.grab_focus()
-			pass
-	pass
+func disconnect_from_context_menu(requesteeNode, connectedTo, functionToDisconnect):
+	nodeContextMenu.disconnect(connectedTo, requesteeNode, functionToDisconnect)
+
+func node_rename_dialogue_request(nodeIndex, nodeTitle, position):
+	nodeRenameInput.text = nodeTitle
+	nodeRenameDialogue.currentIndex = nodeIndex
+	nodeRenameDialogue.set_position(position)
+	nodeRenameDialogue.popup()
+	nodeRenameInput.grab_focus()
 
 func _on_NodeRenameDialogue_confirmed():
 	var entityData = Session.get_current_entity()
@@ -312,3 +360,4 @@ func assign_file_finder(filterArray, access, mode, dialogue, title):
 	fileFinderDialogue.window_title = title
 	fileFinderDialogue.popup()
 	pass
+

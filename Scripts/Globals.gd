@@ -21,6 +21,7 @@ const elementExtension = "lke"
 const windowExtension = "lkw"
 const styleExtension = "lks"
 const saveExtension = "lore"
+const appName = "LoreKeeper"
 const sessionNameDefault = "Untitled_Session"
 
 # Element Prefabs
@@ -79,8 +80,14 @@ var resizeNodeSignal = "resizing_node"
 signal repositioning_node(nodeIndex, newPosition)
 var repositionNodeSignal = "repositioning_node"
 # Called whenver a context-menu request is made.
-signal requesting_context_menu(nodeIndex, menuPosition)
+signal requesting_context_menu(requesteeNode)
 var requestContextMenuSignal = "requesting_context_menu"
+# Called whenver a node rename request is made.
+signal requesting_node_rename(nodeIndex, nodeTitle, nodePosition)
+var requestNodeRenameSignal = "requesting_node_rename"
+# Called whenever a disconnect-from-context-menu request is made.
+signal disconnecting_context_menu(requesteeNode, connectedTo, functionToDisconnect)
+var disconnectContextMenuSignal = "disconnecting_context_menu"
 # Called whenver a change was made to a node.
 signal refreshing_node()
 var refreshNodeSignal = "refreshing_node"
@@ -145,6 +152,9 @@ func check_defaults_integrity():
 	
 	if not dir.file_exists(Functions.os_path_convert(elementsPath) + "LargeText." + elementExtension):
 		Defaults.generate(Functions.os_path_convert(elementsPath) + "LargeText." + elementExtension, Defaults.lTextAttributeDefault)
+	
+	if not dir.file_exists(Functions.os_path_convert(elementsPath) + "SmallText." + elementExtension):
+		Defaults.generate(Functions.os_path_convert(elementsPath) + "SmallText." + elementExtension, Defaults.sTextAttributeDefault)
 	
 	pass
 
