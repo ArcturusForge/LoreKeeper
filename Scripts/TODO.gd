@@ -12,9 +12,9 @@ extends Control
 # -/ Update the defaults
 # -/ Add options shortcuts
 # -/ Add active filename to top bar
-# - Duplicate entity option
 # - Add bg image selector
 # - Store graph position in session data
+# - Duplicate entity option
 # - Add a way to shuffle the order of entries.
 # - Dynamically add options to entity popup menu
 # - Track when session needs saving
