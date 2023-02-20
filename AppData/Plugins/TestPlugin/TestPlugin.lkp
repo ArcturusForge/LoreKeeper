@@ -1,0 +1,7 @@
+{
+	"name" : "Test Plugin",
+	"description" : "",
+	"icon" : "",
+	"appVersion" : "0.1.2",
+	"driver" : "testDriver.tscn"
+}

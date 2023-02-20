@@ -86,3 +86,22 @@ func set_app_name(needsSaving:bool = false):
 	else:
 		OS.set_window_title(Globals.appName + " - " + Session.sessionName + "*")
 	pass
+
+func generate_id(length:int = 3):
+	var rng = RandomNumberGenerator.new()
+	var idParts = []
+	for i in range(0, length):
+		if i == 0:
+			idParts.append(str(rng.randi_range(1,9)))
+		else:
+			idParts.append(str(rng.randi_range(0,9)))
+	var id = ""
+	for i in range(0, idParts.size()):
+		id += idParts[i]
+	return int(id)
+
+func get_prefab(path: String):
+	if Functions.is_app():
+		return load(Functions.os_path_convert(path)).instance()
+	else:
+		return load(path).instance()

@@ -21,3 +21,8 @@ extends Control
 # - Session file editor for restoring broken files or converting to different styles
 # - Style creator window
 # - Create window files for the remaining categories
+# - Autosaving and progress backups.
+# - Add a numerical element.
+# - Add intermediary parent to segmented elements that holds the delete menu.
+# - Plugin system to add expansions to app.
+# - Popup manager that handles popup requests.

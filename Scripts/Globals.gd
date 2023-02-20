@@ -6,6 +6,9 @@ var cacheDefault = {
 	"extension":"jpg"
 }
 
+# Control
+const versionId = "0.1.3"
+
 # Paths
 var dataPath = "res://AppData/" #OR
 #var dataPath = "user://AppData/"
@@ -14,6 +17,7 @@ var elementsPath = dataPath + "Elements/"
 var stylesPath = dataPath + "Styles/"
 var windowsPath = dataPath + "Windows/"
 var iconsPath = dataPath + "Icons/"
+var pluginsPath = dataPath + "Plugins/"
 
 # Constants
 const configExtension = "lki"
@@ -21,6 +25,7 @@ const elementExtension = "lke"
 const windowExtension = "lkw"
 const styleExtension = "lks"
 const saveExtension = "lore"
+const pluginExtension = "lkp"
 const appName = "LoreKeeper"
 const sessionNameDefault = "Untitled_Session"
 
