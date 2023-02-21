@@ -132,7 +132,7 @@ icon = ExtResource( 4 )
 flat = false
 icon_align = 1
 expand_icon = true
-items = [ "Save", null, 0, false, false, 0, 0, null, "", false, "Save As", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Load", null, 0, false, false, 3, 0, null, "", false, "New", null, 0, false, false, 4, 0, null, "", false, "Extras", null, 0, false, false, 5, 0, null, "", true, "Plugins", null, 0, false, false, 6, 0, null, "", false ]
+items = [ "Save", null, 0, false, false, 0, 0, null, "", false, "Save As", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Load", null, 0, false, false, 3, 0, null, "", false, "New", null, 0, false, false, 4, 0, null, "", false, "", null, 0, false, false, 5, 0, null, "", true, "Plugins", null, 0, false, false, 6, 0, null, "", false ]
 
 [node name="AddAttributableButton" type="MenuButton" parent="Control"]
 anchor_left = 0.927734
@@ -297,6 +297,105 @@ mode = 0
 access = 2
 script = ExtResource( 11 )
 
+[node name="PluginOverlay" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="CloseOverlayButton" type="Button" parent="PluginOverlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+flat = true
+
+[node name="SelectorBg" type="ColorRect" parent="PluginOverlay"]
+anchor_left = 0.229023
+anchor_top = 0.207
+anchor_right = 0.770977
+anchor_bottom = 0.793
+margin_left = 0.47998
+margin_top = -0.200012
+margin_right = -0.480042
+margin_bottom = 0.199982
+color = Color( 0.15625, 0.15625, 0.15625, 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="WindowHeader" type="Label" parent="PluginOverlay/SelectorBg"]
+anchor_left = 0.125
+anchor_top = 0.023
+anchor_right = 0.236
+anchor_bottom = 0.062
+margin_left = -0.25
+margin_top = -0.0960007
+margin_right = 0.255997
+margin_bottom = 0.175999
+text = "Plugins"
+align = 1
+uppercase = true
+
+[node name="VBoxContainer" type="ScrollContainer" parent="PluginOverlay/SelectorBg"]
+anchor_top = 0.0596591
+anchor_right = 0.303581
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -0.184002
+margin_bottom = -10.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="OptionContainer" type="VBoxContainer" parent="PluginOverlay/SelectorBg/VBoxContainer"]
+margin_right = 158.0
+margin_bottom = 311.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Preview" type="Control" parent="PluginOverlay/SelectorBg"]
+anchor_left = 0.31769
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="HeaderLabel" type="Label" parent="PluginOverlay/SelectorBg/Preview"]
+anchor_left = 0.33688
+anchor_top = 0.114458
+anchor_right = 1.00279
+anchor_bottom = 0.156458
+margin_left = 0.0279999
+margin_right = -0.0280151
+margin_bottom = 0.0559988
+text = "Plugin Header"
+align = 1
+autowrap = true
+
+[node name="PreviewTexture" type="TextureRect" parent="PluginOverlay/SelectorBg/Preview"]
+anchor_left = 0.0679348
+anchor_right = 0.320674
+anchor_bottom = 0.273639
+margin_right = -0.00800323
+margin_bottom = 0.151997
+expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="DescriptionLabel" type="Label" parent="PluginOverlay/SelectorBg/Preview"]
+anchor_left = 0.0815217
+anchor_top = 0.322458
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.0560303
+text = "Plugin Description"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" to="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" method="_on_LoadButton_pressed"]
 [connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/NewButton" to="." method="_on_NewButton_pressed"]
 [connection signal="id_pressed" from="StyleFileDialogue" to="." method="_on_StyleFileDialogue_id_pressed"]
@@ -306,3 +405,4 @@ script = ExtResource( 11 )
 [connection signal="text_entered" from="NodeRenameDialogue/LineEdit" to="NodeRenameDialogue" method="_on_LineEdit_text_entered"]
 [connection signal="file_selected" from="FileFinderDialog" to="FileFinderDialog" method="_on_FileFinderDialog_file_selected"]
 [connection signal="files_selected" from="FileFinderDialog" to="FileFinderDialog" method="_on_FileFinderDialog_files_selected"]
+[connection signal="pressed" from="PluginOverlay/CloseOverlayButton" to="Managers/Plugins" method="_on_CloseOverlayButton_pressed"]

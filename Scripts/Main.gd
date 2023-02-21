@@ -20,6 +20,9 @@ onready var entityContainer = $HSplitContainer/ColorRect2/EntityControl
 onready var AddAttributableBtn = $Control/AddAttributableButton
 onready var OptionsBtn = $Control/FileOptionsButton
 
+# Managers
+onready var pluginManager = $Managers/Plugins
+
 # Dynamics
 var categoryBar
 var entitiesCollectionContainer
@@ -51,6 +54,8 @@ func _ready():
 	set_options_shortcut(3, KEY_L, true)
 	# New
 	set_options_shortcut(4, KEY_N, true)
+	# Plugins
+	set_options_shortcut(6, KEY_P, true, true)
 	
 	# Global event signal subscription
 	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
@@ -269,6 +274,8 @@ func on_option_selected(index: int):
 			seshDialogue.popup()
 		4: # New
 			_on_NewButton_pressed()
+		6: # Plugins
+			pluginManager._generate_plugin_menu()
 
 func _on_SessionFileDialog_file_selected(path: String):
 	load_existing_session(path)

@@ -12,6 +12,9 @@ extends Control
 # -/ Update the defaults
 # -/ Add options shortcuts
 # -/ Add active filename to top bar
+# -/ Plugin system to add expansions to app.
+# - Make the cache file a dynamic instance like Session.
+# - Expose features to the plugin system.
 # - Add bg image selector
 # - Store graph position in session data
 # - Duplicate entity option
@@ -24,5 +27,4 @@ extends Control
 # - Autosaving and progress backups.
 # - Add a numerical element.
 # - Add intermediary parent to segmented elements that holds the delete menu.
-# - Plugin system to add expansions to app.
 # - Popup manager that handles popup requests.

@@ -77,12 +77,10 @@ func resized_node(index: int, size: Vector2):
 
 func repositioned_node(index: int, pos: Vector2):
 	if index == 0: # data[0] is entity name
-		print ("adding")
 		index += 1
 		
 	var entityData = Session.get_current_entity()
 	if index >= entityData.size():
-		print ("breaking")
 		return
 	entityData[index].node.positionX = pos.x
 	entityData[index].node.positionY = pos.y

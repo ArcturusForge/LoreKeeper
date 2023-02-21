@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://alert.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/PluginOption.gd" type="Script" id=2]
+
+[node name="PluginOption" type="HBoxContainer"]
+margin_right = 158.0
+margin_bottom = 24.0
+script = ExtResource( 2 )
+
+[node name="ActivateCheckBox" type="CheckBox" parent="."]
+margin_right = 24.0
+margin_bottom = 24.0
+focus_mode = 0
+enabled_focus_mode = 0
+
+[node name="PreviewButton" type="Button" parent="."]
+margin_left = 28.0
+margin_right = 158.0
+margin_bottom = 24.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+enabled_focus_mode = 0
+align = 0
+
+[node name="AlertOverlay" type="TextureRect" parent="PreviewButton"]
+visible = false
+anchor_left = 0.846615
+anchor_top = 0.125
+anchor_right = 0.984615
+anchor_bottom = 0.875
+margin_left = -0.0600052
+hint_tooltip = "Warning: Plugin is made for a different version of LoreKeeper!"
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="toggled" from="ActivateCheckBox" to="." method="_on_ActivateCheckBox_toggled"]
+[connection signal="pressed" from="PreviewButton" to="." method="_on_PreviewButton_pressed"]

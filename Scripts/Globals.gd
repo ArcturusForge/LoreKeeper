@@ -13,9 +13,9 @@ const versionId = "0.1.3"
 var dataPath = "res://AppData/" #OR
 #var dataPath = "user://AppData/"
 var cachePath = dataPath + "Cache/"
-var elementsPath = dataPath + "Elements/"
-var stylesPath = dataPath + "Styles/"
-var windowsPath = dataPath + "Windows/"
+var elementsPath = dataPath + "Custom/Elements/"
+var stylesPath = dataPath + "Custom/Styles/"
+var windowsPath = dataPath + "Custom/Windows/"
 var iconsPath = dataPath + "Icons/"
 var pluginsPath = dataPath + "Plugins/"
 
@@ -33,6 +33,9 @@ const sessionNameDefault = "Untitled_Session"
 const elementSegmentPrefab = preload("res://Prefabs/ElementPrefabs/ElementSegmentContainer.tscn")
 const elementListBtnPrefab = preload("res://Prefabs/ElementPrefabs/AddListedElementButton.tscn")
 const elementSeperatorPrefab = preload("res://Prefabs/ElementPrefabs/ElementSeperator.tscn")
+
+# Plugin Prefabs
+const pluginOptionPrefab = preload("res://Prefabs/PluginOption.tscn")
 
 # Enums
 enum EntityWindow {DEFAULT, FREEFORM, GRAPH}

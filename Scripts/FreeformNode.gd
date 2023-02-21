@@ -77,7 +77,6 @@ func generate_fields():
 		addBtn.nodeIndex = nodeIndex
 		addBtn.listParent = parent
 		addBtn.listElementIndex = entityData[nodeIndex].data.size()
-		print(str(addBtn.listElementIndex))
 		addBtn.text = fieldData.listPrompt
 		parent.add_child(addBtn)
 		pass
