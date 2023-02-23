@@ -12,10 +12,6 @@ onready var header_label = $"../../PluginOverlay/SelectorBg/Preview/HeaderLabel"
 onready var preview_texture = $"../../PluginOverlay/SelectorBg/Preview/PreviewTexture"
 onready var description_label = $"../../PluginOverlay/SelectorBg/Preview/DescriptionLabel"
 
-func _ready():
-	_detect_plugins()
-	pass
-
 func _process(delta):
 	for i in range(0, runIds.size()):
 		loadedPlugins[runIds[i]]._run()
@@ -30,6 +26,8 @@ func _detect_plugins():
 		var config = parse_json(file.get_as_text())
 		file.close()
 		
+		print("detected plugin : " + config.name)
+		
 		var uniqueId :int = Functions.generate_id()
 		while detectedPlugins.keys().has(uniqueId):
 			uniqueId = Functions.generate_id()
@@ -39,11 +37,14 @@ func _detect_plugins():
 			"config" : config,
 			"path" : plugin.get_base_dir()
 		}
-		print("detected plugin : " + config.name)
+		
+		var fName = plugin.get_base_dir().get_file()
+		if Cache.activePlugins.has(fName):
+			_load_plugin(uniqueId, false)
 	pass
 
 # Activates and registers a plugin.
-func _load_plugin(id: int):
+func _load_plugin(id: int, saveCache = true):
 	var plugin = detectedPlugins[id]
 	var driver = Functions.get_prefab(plugin.path + "/" + plugin.config.driver)
 	pluginContainer.add_child(driver)
@@ -52,16 +53,23 @@ func _load_plugin(id: int):
 		runIds.append(id)
 	driver.activePluginId = id
 	driver._configure()
+	if saveCache:
+		Cache.add_plugin(plugin.path.get_file())
+		Cache.save_cache()
 	pass
 
 # Deactivates a loaded plugin.
-func _unload_plugin(id: int):
+func _unload_plugin(id: int, saveCache = true):
 	var driver = loadedPlugins[id]
 	loadedPlugins.erase(id)
 	if runIds.has(id):
 		runIds.erase(id)
 	driver._unload()
 	driver.queue_free()
+	var plugin = detectedPlugins[id]
+	if saveCache:
+		Cache.remove_plugin(plugin.path.get_file())
+		Cache.save_cache()
 	pass
 
 # Generates the overall plugin selection window.

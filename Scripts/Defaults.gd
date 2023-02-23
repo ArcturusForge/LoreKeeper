@@ -1,5 +1,7 @@
 extends Node
 
+var cacheDefault = "res://Defaults/CacheDefault.json"
+
 var styleDefault = [
 	{
 		"category": "Characters",
@@ -104,7 +106,16 @@ var sTextAttributeDefault = {
   "seperator" : ""
 }
 
-
+func get_cache_default():
+	var file = File.new()
+	if Functions.is_app():
+		file.open(Functions.os_path_convert(cacheDefault), File.READ) 
+	else:
+		file.open(cacheDefault, File.READ)
+	var text = file.get_as_text()
+	var json = parse_json(text)
+	file.close()
+	return json
 
 func generate(path:String, data):
 	var file = File.new()

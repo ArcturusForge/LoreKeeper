@@ -18,6 +18,7 @@ config/windows_native_icon="res://icon.ico"
 [autoload]
 
 Globals="*res://Scripts/Globals.gd"
+Cache="*res://Scripts/Cache.gd"
 Functions="*res://Scripts/Functions.gd"
 Session="*res://Scripts/Session.gd"
 Defaults="*res://Scripts/Defaults.gd"

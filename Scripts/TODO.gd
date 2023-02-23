@@ -13,8 +13,10 @@ extends Control
 # -/ Add options shortcuts
 # -/ Add active filename to top bar
 # -/ Plugin system to add expansions to app.
-# - Make the cache file a dynamic instance like Session.
+# -/ Make the cache file a dynamic instance like Session.
+# -/ Cache active plugins
 # - Expose features to the plugin system.
+# - Feature to reference entities while writing in a text field using "@name_of_category".
 # - Add bg image selector
 # - Store graph position in session data
 # - Duplicate entity option
