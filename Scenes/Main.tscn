@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/PluginManager.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scripts/LoadButton.gd" type="Script" id=9]
 [ext_resource path="res://Scripts/NodeRenameDialogue.gd" type="Script" id=10]
 [ext_resource path="res://Scripts/FileFinderDialog.gd" type="Script" id=11]
+[ext_resource path="res://alert.png" type="Texture" id=12]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -316,16 +317,16 @@ margin_left = 0.47998
 margin_top = -0.200012
 margin_right = -0.480042
 margin_bottom = 0.199982
-color = Color( 0.15625, 0.15625, 0.15625, 1 )
+color = Color( 0.247059, 0.239216, 0.278431, 1 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="WindowHeader" type="Label" parent="PluginOverlay/SelectorBg"]
-anchor_left = 0.125
-anchor_top = 0.023
-anchor_right = 0.236
-anchor_bottom = 0.062
+anchor_left = 0.0997299
+anchor_top = 0.0315228
+anchor_right = 0.21073
+anchor_bottom = 0.0705228
 margin_left = -0.25
 margin_top = -0.0960007
 margin_right = 0.255997
@@ -333,6 +334,9 @@ margin_bottom = 0.175999
 text = "Plugins"
 align = 1
 uppercase = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="VBoxContainer" type="ScrollContainer" parent="PluginOverlay/SelectorBg"]
 anchor_top = 0.0596591
@@ -353,13 +357,14 @@ margin_bottom = 311.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Preview" type="Control" parent="PluginOverlay/SelectorBg"]
+[node name="Preview" type="ColorRect" parent="PluginOverlay/SelectorBg"]
 anchor_left = 0.31769
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
+color = Color( 0.0862745, 0.0862745, 0.0862745, 0.184314 )
 
 [node name="HeaderLabel" type="Label" parent="PluginOverlay/SelectorBg/Preview"]
 anchor_left = 0.33688
@@ -374,20 +379,22 @@ align = 1
 autowrap = true
 
 [node name="PreviewTexture" type="TextureRect" parent="PluginOverlay/SelectorBg/Preview"]
-anchor_left = 0.0679348
-anchor_right = 0.320674
-anchor_bottom = 0.273639
+anchor_left = 0.0380432
+anchor_top = 0.0271084
+anchor_right = 0.290782
+anchor_bottom = 0.300747
 margin_right = -0.00800323
 margin_bottom = 0.151997
+texture = ExtResource( 12 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="DescriptionLabel" type="Label" parent="PluginOverlay/SelectorBg/Preview"]
-anchor_left = 0.0815217
+anchor_left = 0.0380431
 anchor_top = 0.322458
-anchor_right = 1.0
+anchor_right = 0.956521
 anchor_bottom = 1.0
 margin_top = -0.0560303
 text = "Plugin Description"

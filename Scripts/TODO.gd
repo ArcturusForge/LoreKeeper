@@ -15,6 +15,7 @@ extends Control
 # -/ Plugin system to add expansions to app.
 # -/ Make the cache file a dynamic instance like Session.
 # -/ Cache active plugins
+# - Copy image feature. Copies the encoded image to clipboard.
 # - Expose features to the plugin system.
 # - Feature to reference entities while writing in a text field using "@name_of_category".
 # - Add bg image selector

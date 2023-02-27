@@ -1,4 +1,5 @@
 extends Control
+
 # Assigned by the plugin manager when loaded in. 
 # (Value changes every time the plugin is loaded)
 var activePluginId
@@ -9,7 +10,7 @@ func _do_run():
 
 # Called by the plugin manager when plugin loaded.
 func _configure():
-	print("configuring plugin")
+	print("plugin is loaded")
 	pass
 
 # Called by the plugin manager every frame.
@@ -18,5 +19,4 @@ func _run():
 
 # Called by the plugin manager when the plugin is unloaded.
 func _unload():
-	print("unloading plugin")
 	pass

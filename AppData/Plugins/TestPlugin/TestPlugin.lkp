@@ -1,7 +1,0 @@
-{
-	"name" : "Test Plugin",
-	"description" : "This is a test for the plugin description.",
-	"icon" : "Capture.PNG",
-	"appVersion" : "0.1.2",
-	"driver" : "testDriver.tscn"
-}

@@ -4,6 +4,7 @@ var detectedPlugins = {}
 var loadedPlugins = {}
 var runIds = []
 
+var default_img = preload("res://alert.png")
 onready var pluginContainer = $"../../PluginContainer"
 onready var plugin_overlay = $"../../PluginOverlay"
 onready var option_container = $"../../PluginOverlay/SelectorBg/VBoxContainer/OptionContainer"
@@ -19,6 +20,7 @@ func _process(delta):
 
 # Detects and compiles all plugins within the plugin folder.
 func _detect_plugins():
+	#TODO: uncache plugins that are no longer detected.
 	var detected = Functions.get_all_files(Globals.pluginsPath, Globals.pluginExtension)
 	for plugin in detected:
 		var file = File.new()
@@ -94,7 +96,7 @@ func _close_plugin_menu():
 	plugin_overlay.visible = false
 	header_label.text = "Plugin Header"
 	description_label.text = "Plugin Description"
-	preview_texture.texture = null
+	preview_texture.texture = default_img
 	for i in range(option_container.get_child_count()-1, -1, -1):
 		option_container.get_child(i).queue_free()
 	pass
