@@ -31,3 +31,6 @@ extends Control
 # - Add a numerical element.
 # - Add intermediary parent to segmented elements that holds the delete menu.
 # - Popup manager that handles popup requests.
+
+
+# You can convert to android by changing appdata location to the UserData directory probably...

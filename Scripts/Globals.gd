@@ -3,6 +3,9 @@ extends Node
 # Control
 const versionId = "0.1.3"
 
+var main
+var plugins
+
 # Paths
 var dataPath = "res://AppData/" #OR
 #var dataPath = "user://AppData/"

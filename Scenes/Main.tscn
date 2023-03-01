@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/PluginManager.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Scripts/NodeRenameDialogue.gd" type="Script" id=10]
 [ext_resource path="res://Scripts/FileFinderDialog.gd" type="Script" id=11]
 [ext_resource path="res://alert.png" type="Texture" id=12]
+[ext_resource path="res://Scripts/PopupMenuHandler.gd" type="Script" id=13]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -134,6 +135,7 @@ flat = false
 icon_align = 1
 expand_icon = true
 items = [ "Save", null, 0, false, false, 0, 0, null, "", false, "Save As", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Load", null, 0, false, false, 3, 0, null, "", false, "New", null, 0, false, false, 4, 0, null, "", false, "", null, 0, false, false, 5, 0, null, "", true, "Plugins", null, 0, false, false, 6, 0, null, "", false ]
+script = ExtResource( 13 )
 
 [node name="AddAttributableButton" type="MenuButton" parent="Control"]
 anchor_left = 0.927734

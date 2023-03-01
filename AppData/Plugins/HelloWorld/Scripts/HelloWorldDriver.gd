@@ -11,6 +11,9 @@ func _do_run():
 # Called by the plugin manager when plugin loaded.
 func _configure():
 	print("plugin is loaded")
+	var optionsPopup = Globals.main.optionsBtn
+	optionsPopup.define_entity(str(activePluginId), self, "handle_popup")
+	optionsPopup.add_option(str(activePluginId), "Test1")
 	pass
 
 # Called by the plugin manager every frame.
@@ -19,4 +22,12 @@ func _run():
 
 # Called by the plugin manager when the plugin is unloaded.
 func _unload():
+	var optionsPopup = Globals.main.optionsBtn
+	optionsPopup.remove_option(str(activePluginId), "Test1")
+	pass
+
+func handle_popup(option):
+	match option:
+		"Test1":
+			print("Plugin option pressed")
 	pass

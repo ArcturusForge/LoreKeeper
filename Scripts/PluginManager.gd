@@ -13,6 +13,10 @@ onready var header_label = $"../../PluginOverlay/SelectorBg/Preview/HeaderLabel"
 onready var preview_texture = $"../../PluginOverlay/SelectorBg/Preview/PreviewTexture"
 onready var description_label = $"../../PluginOverlay/SelectorBg/Preview/DescriptionLabel"
 
+func _ready():
+	Globals.plugins = self
+	pass
+
 func _process(delta):
 	for i in range(0, runIds.size()):
 		loadedPlugins[runIds[i]]._run()

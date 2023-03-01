@@ -17,8 +17,8 @@ onready var categoryContainer = $Control/CategoryContainer
 onready var windowHeader = $HSplitContainer/ColorRect/WindowHeader
 onready var entitiesContainer = $HSplitContainer/ColorRect/EntitiesControl
 onready var entityContainer = $HSplitContainer/ColorRect2/EntityControl
-onready var AddAttributableBtn = $Control/AddAttributableButton
-onready var OptionsBtn = $Control/FileOptionsButton
+onready var addAttributableBtn = $Control/AddAttributableButton
+onready var optionsBtn = $Control/FileOptionsButton
 
 # Managers
 onready var pluginManager = $Managers/Plugins
@@ -41,21 +41,25 @@ onready var entityListWindowPrefab = preload("res://Prefabs/EntityListContainer.
 onready var entityFreeformWindowPrefab = preload("res://Prefabs/EntityFreeformContainer.tscn")
 
 func _ready():
+	Globals.main = self
+	
 	startOverlay.visible = true
 	categoryBar = $Control/CategoryContainer/CategoryBar
 	entitiesCollectionContainer = $HSplitContainer/ColorRect/EntitiesControl/collectionContainer
 	entityCollectionContainer = $HSplitContainer/ColorRect2/EntityControl/collectionContainer
 	
+	# Allowing this entity to generate options.
+	optionsBtn.define_entity("main", self, "on_option_selected")
 	# Save
-	set_options_shortcut(0, KEY_S, true)
+	optionsBtn.add_option_w_shortcut("main", "Save", KEY_S)
 	# Save As
-	set_options_shortcut(1, KEY_S, true, true)
+	optionsBtn.add_option_w_shortcut("main", "Save As", KEY_S, true)
 	# Load
-	set_options_shortcut(3, KEY_L, true)
+	optionsBtn.add_option_w_shortcut("main", "Load", KEY_L)
 	# New
-	set_options_shortcut(4, KEY_N, true)
+	optionsBtn.add_option_w_shortcut("main", "New", KEY_N)
 	# Plugins
-	set_options_shortcut(6, KEY_P, true, true)
+	optionsBtn.add_option_w_shortcut("main", "Plugins", KEY_P, true)
 	
 	# Global event signal subscription
 	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
@@ -68,8 +72,7 @@ func _ready():
 	Globals.connect(Globals.requestFileFinder, self, "assign_file_finder")
 	
 	# Local event signal subscription
-	AddAttributableBtn.get_popup().connect("id_pressed", self, "on_attributable_selected")
-	OptionsBtn.get_popup().connect("id_pressed", self, "on_option_selected")
+	addAttributableBtn.get_popup().connect("id_pressed", self, "on_attributable_selected")
 	
 	# Check for directory and defaults integrity
 	Globals.check_folder_integrity()
@@ -95,16 +98,6 @@ func _ready():
 		load_style_config(style)
 	
 	pluginManager._detect_plugins()
-	pass
-
-func set_options_shortcut(optionIndex, scancode, useControl:bool = true, useShift:bool = false):
-	var shortcut = ShortCut.new()
-	var inputKey = InputEventKey.new()
-	inputKey.set_scancode(scancode)
-	inputKey.control = useControl
-	inputKey.shift = useShift
-	shortcut.set_shortcut(inputKey)
-	OptionsBtn.get_popup().set_item_shortcut(optionIndex, shortcut, true)
 	pass
 
 func load_existing_session(path: String):
@@ -222,7 +215,7 @@ func rebuild_entity_container(windowType: int):
 		0:
 			entityCollectionContainer = selectEntityWindowPrefab.instance()
 			# Reset the attributables button to block adding data to null refs.
-			AddAttributableBtn.disabled = true
+			addAttributableBtn.disabled = true
 			Globals.entityIndex = -1
 		1:
 			entityCollectionContainer = entityFreeformWindowPrefab.instance()
@@ -247,31 +240,31 @@ func view_entry(index: int):
 	var windowName = Globals.style[Globals.windowIndex].window
 	var windowConfig = Globals.windowConfigs[windowName]
 	rebuild_entity_container(windowConfig.format)
-	AddAttributableBtn.disabled = false
-	AddAttributableBtn.get_popup().clear()
+	addAttributableBtn.disabled = false
+	addAttributableBtn.get_popup().clear()
 	for selector in windowConfig.fields:
-		AddAttributableBtn.get_popup().add_icon_item(Functions.load_image(Globals.iconsPath + selector.icon), selector.prompt)
+		addAttributableBtn.get_popup().add_icon_item(Functions.load_image(Globals.iconsPath + selector.icon), selector.prompt)
 	pass
 
 func on_attributable_selected(index: int):
 	Globals.emit_signal(Globals.createEntityElementSignal, index)
 	pass
 
-func on_option_selected(index: int):
-	match index:
-		0: # Save
+func on_option_selected(option:String):
+	match option:
+		"Save": # Save
 			if Session.savePath == "":
 				saveAsDialogue.popup()
 			else:
 				Session.quick_save()
-		1: # Save As
+		"Save As": # Save As
 			saveAsDialogue.popup()
 		#2: Seperator 
-		3: # Load
+		"Load": # Load
 			seshDialogue.popup()
-		4: # New
+		"New": # New
 			_on_NewButton_pressed()
-		6: # Plugins
+		"Plugins": # Plugins
 			pluginManager._generate_plugin_menu()
 
 func _on_SessionFileDialog_file_selected(path: String):
