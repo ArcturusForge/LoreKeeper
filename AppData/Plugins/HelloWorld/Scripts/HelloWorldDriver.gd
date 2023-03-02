@@ -13,6 +13,7 @@ func _configure():
 	print("plugin is loaded")
 	var optionsPopup = Globals.main.optionsBtn
 	optionsPopup.define_entity(str(activePluginId), self, "handle_popup")
+	optionsPopup.add_separator(str(activePluginId), "Hello World Plugin")
 	optionsPopup.add_option(str(activePluginId), "Test1")
 	pass
 
@@ -23,7 +24,7 @@ func _run():
 # Called by the plugin manager when the plugin is unloaded.
 func _unload():
 	var optionsPopup = Globals.main.optionsBtn
-	optionsPopup.remove_option(str(activePluginId), "Test1")
+	optionsPopup.remove_entity(str(activePluginId))
 	pass
 
 func handle_popup(option):

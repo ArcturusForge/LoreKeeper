@@ -50,16 +50,19 @@ func _ready():
 	
 	# Allowing this entity to generate options.
 	optionsBtn.define_entity("main", self, "on_option_selected")
+	optionsBtn.add_separator("main", "Options")
 	# Save
-	optionsBtn.add_option_w_shortcut("main", "Save", KEY_S)
+	optionsBtn.add_option("main", "Save", KEY_S)
 	# Save As
-	optionsBtn.add_option_w_shortcut("main", "Save As", KEY_S, true)
+	optionsBtn.add_option("main", "Save As", KEY_S, true)
+	optionsBtn.add_separator("main")
 	# Load
-	optionsBtn.add_option_w_shortcut("main", "Load", KEY_L)
+	optionsBtn.add_option("main", "Load", KEY_L)
 	# New
-	optionsBtn.add_option_w_shortcut("main", "New", KEY_N)
+	optionsBtn.add_option("main", "New", KEY_N)
+	optionsBtn.add_separator("main")
 	# Plugins
-	optionsBtn.add_option_w_shortcut("main", "Plugins", KEY_P, true)
+	optionsBtn.add_option("main", "Plugins", KEY_P, true)
 	
 	# Global event signal subscription
 	Globals.connect(Globals.menuSelectedSignal, self, "select_menu")
