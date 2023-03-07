@@ -30,7 +30,7 @@ func generate_element(elementIndex: int):
 	var newElement = {
 		"header" : option.header,
 		"fieldIndex" : elementIndex,
-		"node" : {"positionX" : 20 * graph.get_child_count(), "positionY" : 20 * graph.get_child_count(), "sizeX" : 330, "sizeY" : 210},
+		"node" : {"positionX" : graph.scroll_offset.x + 20, "positionY" : graph.scroll_offset.y + 20, "sizeX" : 330, "sizeY" : 210},
 		"data" : []
 	}
 	Session.get_current_entity().append(newElement)

@@ -35,8 +35,8 @@ func _generate_popup():
 	var popupId = 0
 	for entId in entries.keys():
 		var ent = entries[entId]
-		for i in range(0, entries[entId].options.size()):
-			var option = entries[entId].options[i]
+		for i in range(0, ent.options.size()):
+			var option = ent.options[i]
 			popupData[popupId] = {
 				"option" : option.text,
 				"entityId" : entId,

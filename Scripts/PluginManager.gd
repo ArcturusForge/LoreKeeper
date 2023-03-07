@@ -58,6 +58,7 @@ func _load_plugin(id: int, saveCache = true):
 	if driver._do_run():
 		runIds.append(id)
 	driver.activePluginId = id
+	driver.pluginPath = plugin.path
 	driver._configure()
 	if saveCache:
 		Cache.add_plugin(plugin.path.get_file())

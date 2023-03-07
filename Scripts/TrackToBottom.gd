@@ -6,8 +6,8 @@ var sVBar: VScrollBar
 export var trackToMaxH: bool
 export var trackToMaxV: bool
 
-var maxH := 0
-var maxV := 0
+var maxH : float = 0
+var maxV : float = 0
 
 func _ready():
 	if self.scroll_horizontal_enabled:
