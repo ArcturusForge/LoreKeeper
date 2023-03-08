@@ -236,6 +236,7 @@ func create_entry(windowIndex, btnIndex):
 	Session.data[windowIndex].append(dat)
 	rebuild_entities_container()
 	view_entry(btnIndex)
+	Functions.set_app_name(true)
 	pass
 
 func view_entry(index: int):
@@ -350,6 +351,7 @@ func _on_NodeRenameDialogue_confirmed():
 	var entityData = Session.get_current_entity()
 	entityData[nodeRenameDialogue.currentIndex].header = nodeRenameInput.text
 	Globals.emit_signal(Globals.refreshNodeSignal)
+	Functions.set_app_name(true)
 	pass
 
 func assign_file_finder(filterArray, access, mode, dialogue, title):

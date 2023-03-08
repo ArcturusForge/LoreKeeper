@@ -113,6 +113,7 @@ func get_image(path: String):
 	else:
 		elementData[segmentIndex][2] = imageData[0]
 		elementData[segmentIndex][3] = imageData[1]
+	Functions.set_app_name(true)
 	pass
 
 func _on_DeleteElementButton_pressed():

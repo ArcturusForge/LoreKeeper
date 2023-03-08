@@ -15,17 +15,17 @@ extends Control
 # -/ Plugin system to add expansions to app.
 # -/ Make the cache file a dynamic instance like Session.
 # -/ Cache active plugins
+# -/ Expose features to the plugin system. - Solved by providing global access to main script.
+# -/ Store graph position in session data - Offer a reset view option or only locally cache view.
+# -/ Track when session needs saving
 # - Copy image feature. Copies the encoded image to clipboard.
-# - Expose features to the plugin system.
 # - Feature to reference entities while writing in a text field using "@name_of_category".
 # - Add bg image selector
-# - Store graph position in session data
-# - Duplicate entity option
+# - Duplicate entity option - Repurpose entity delete into an entity options menu.
 # - Add a way to shuffle the order of entries.
-# - Dynamically add options to entity popup menu
-# - Track when session needs saving
-# - Session file editor for restoring broken files or converting to different styles
-# - Style creator window
+# - Dynamically add options to node popup menu
+# - Session file editor for restoring broken saves or converting styles - Make as a plugin.
+# - Style creator window - Make a plugin.
 # - Create window files for the remaining categories
 # - Autosaving and progress backups.
 # - Add a numerical element.
@@ -34,3 +34,4 @@ extends Control
 
 
 # You can convert to android by changing appdata location to the UserData directory probably...
+# or downloading godot on android and copying the project onto device and running it through that.

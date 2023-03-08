@@ -76,6 +76,7 @@ func _on_LargeTextEdit_text_changed():
 		data[2] = self.text
 	else:
 		data.append(self.text)
+	Functions.set_app_name(true)
 	pass
 
 func _on_DeleteElementButton_pressed():

@@ -74,6 +74,7 @@ func _on_TextEdit_text_changed(new_text):
 		data[2] = new_text
 	else:
 		data.append(new_text)
+	Functions.set_app_name(true)
 	pass
 
 func _on_TextEdit_mouse_entered():

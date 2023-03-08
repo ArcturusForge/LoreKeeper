@@ -84,7 +84,7 @@ func set_app_name(needsSaving:bool = false):
 	if not needsSaving:
 		OS.set_window_title(Globals.appName + "_" + Globals.versionId + " - " + Session.sessionName)
 	else:
-		OS.set_window_title(Globals.appName + "_" + Globals.versionId + " - " + Session.sessionName + "(*)")
+		OS.set_window_title(Globals.appName + "_" + Globals.versionId + " - " + Session.sessionName + " (*)")
 	pass
 
 func generate_id(length:int = 3):
