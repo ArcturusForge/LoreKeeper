@@ -18,6 +18,7 @@ extends Control
 # -/ Expose features to the plugin system. - Solved by providing global access to main script.
 # -/ Store graph position in session data - Offer a reset view option or only locally cache view.
 # -/ Track when session needs saving
+# - Move cache file to userdata.
 # - Copy image feature. Copies the encoded image to clipboard.
 # - Feature to reference entities while writing in a text field using "@name_of_category".
 # - Add bg image selector

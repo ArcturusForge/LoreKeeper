@@ -1,7 +1,0 @@
-{
-	"name" : "Hello World Plugin",
-	"description" : "This is a plugin that will display a message popup",
-	"icon" : "",
-	"appVersion" : "0.1.3",
-	"driver" : "Scenes/HelloWorldDriver.tscn"
-}

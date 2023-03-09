@@ -71,10 +71,9 @@ func load_image_from_encode(extension:String, encodedImage:String):
 
 # Use when creating directories/files at runtime
 func os_path_convert(path: String):
-	if "res://" in path:
-		return path.replace("res:/", OS.get_executable_path().get_base_dir())
-	elif "user://" in path:
-		return path.replace("user:/", OS.get_user_data_dir())
+	if "res://" in path || "user://" in path:
+		return ProjectSettings.globalize_path(path)
+		
 	return path
 
 func is_app():
