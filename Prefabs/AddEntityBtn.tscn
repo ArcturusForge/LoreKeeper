@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Scripts/AddEntityBtn.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/UI/AddEntityBtn.gd" type="Script" id=2]
 
 [node name="AddEntityBtn" type="Button"]
 margin_top = 46.0

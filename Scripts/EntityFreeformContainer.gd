@@ -44,7 +44,7 @@ func generate_element(elementIndex: int):
 	}
 	Session.get_current_entity().append(newElement)
 	draw_element(newElement)
-	Functions.set_app_name(true)
+	Globals.repaint_app_name(true)
 	pass
 
 func draw_element(data):
@@ -60,7 +60,7 @@ func _on_EntityName_text_entered(new_text):
 	var entityData = Session.get_current_entity()
 	entityData[0].name = new_text
 	Globals.emit_signal(Globals.repaintEntitiesSignal)
-	Functions.set_app_name(true)
+	Globals.repaint_app_name(true)
 	pass
 
 # Called when you delete an entity under a category.
@@ -68,7 +68,7 @@ func _on_DeleteEntryBtn_pressed():
 	#TODO: Make an "are you sure" popup
 	Session.data[Globals.windowIndex].remove(Globals.entityIndex)
 	Globals.emit_signal(Globals.redrawAllSignal)
-	Functions.set_app_name(true)
+	Globals.repaint_app_name(true)
 	pass
 
 # Called when you delete a node inside an entity.
@@ -77,7 +77,7 @@ func deleted_node(index: int):
 		index += 1
 	var entityData = Session.get_current_entity()
 	entityData.remove(index)
-	Functions.set_app_name(true)
+	Globals.repaint_app_name(true)
 	pass
 
 func resized_node(index: int, size: Vector2):
@@ -86,7 +86,7 @@ func resized_node(index: int, size: Vector2):
 	var entityData = Session.get_current_entity()
 	entityData[index].node.sizeX = size.x
 	entityData[index].node.sizeY = size.y
-	Functions.set_app_name(true)
+	Globals.repaint_app_name(true)
 	pass
 
 func repositioned_node(index: int, pos: Vector2):
@@ -98,7 +98,7 @@ func repositioned_node(index: int, pos: Vector2):
 		return
 	entityData[index].node.positionX = pos.x
 	entityData[index].node.positionY = pos.y
-	Functions.set_app_name(true)
+	Globals.repaint_app_name(true)
 	pass
 
 func _on_EntityFreeformContainer_tree_exited():

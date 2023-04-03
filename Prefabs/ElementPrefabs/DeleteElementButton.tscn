@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://AppData/Icons/flip_tails.png" type="Texture" id=1]
+[ext_resource path="res://App/Graphics/Icons/flip_tails.png" type="Texture" id=1]
 
 [node name="DeleteElementButton" type="Button"]
 visible = false

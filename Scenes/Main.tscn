@@ -1,18 +1,18 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
-[ext_resource path="res://Scripts/PluginManager.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Managers/Main.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Managers/PluginManager.gd" type="Script" id=2]
 [ext_resource path="res://Prefabs/EntitiesContainer.tscn" type="PackedScene" id=3]
-[ext_resource path="res://AppData/Icons/book_open.png" type="Texture" id=4]
+[ext_resource path="res://App/Graphics/Icons/book_open.png" type="Texture" id=4]
 [ext_resource path="res://Prefabs/CategoryBar.tscn" type="PackedScene" id=5]
-[ext_resource path="res://AppData/Icons/notepad_write.png" type="Texture" id=6]
-[ext_resource path="res://Scripts/TrackToBottom.gd" type="Script" id=7]
-[ext_resource path="res://AppData/Icons/book_closed.png" type="Texture" id=8]
-[ext_resource path="res://Scripts/LoadButton.gd" type="Script" id=9]
+[ext_resource path="res://App/Graphics/Icons/notepad_write.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/Misc/TrackToBottom.gd" type="Script" id=7]
+[ext_resource path="res://App/Graphics/Icons/book_closed.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/UI/LoadButton.gd" type="Script" id=9]
 [ext_resource path="res://Scripts/NodeRenameDialogue.gd" type="Script" id=10]
-[ext_resource path="res://Scripts/FileFinderDialog.gd" type="Script" id=11]
 [ext_resource path="res://alert.png" type="Texture" id=12]
-[ext_resource path="res://Scripts/DynamicPopupDriver.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/Managers/PopupManager.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/Managers/SearchManager.gd" type="Script" id=14]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -23,10 +23,24 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Plugins" type="Control" parent="Managers"]
+[node name="PluginManager" type="Control" parent="Managers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
+
+[node name="PopupManager" type="Control" parent="Managers"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 13 )
+
+[node name="SearchManager" type="Control" parent="Managers"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 14 )
+
+[node name="WindowManager" type="Control" parent="Managers"]
+margin_right = 40.0
+margin_bottom = 40.0
 
 [node name="PluginContainer" type="Control" parent="."]
 margin_right = 40.0
@@ -135,7 +149,6 @@ flat = false
 icon_align = 1
 expand_icon = true
 items = [ "Save", null, 0, false, false, 0, 0, null, "", false, "Save As", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Load", null, 0, false, false, 3, 0, null, "", false, "New", null, 0, false, false, 4, 0, null, "", false, "", null, 0, false, false, 5, 0, null, "", true, "Plugins", null, 0, false, false, 6, 0, null, "", false ]
-script = ExtResource( 13 )
 
 [node name="AddAttributableButton" type="MenuButton" parent="Control"]
 anchor_left = 0.927734
@@ -243,21 +256,6 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.lore" )
 
-[node name="SaveSessionDialogue" type="FileDialog" parent="."]
-anchor_left = 0.302
-anchor_top = 0.23
-anchor_right = 0.698
-anchor_bottom = 0.77
-margin_left = -0.248016
-margin_top = 1.52588e-05
-margin_right = 0.247986
-margin_bottom = -3.05176e-05
-window_title = "Save your Lore File"
-resizable = true
-dialog_text = "Save your current session"
-access = 2
-filters = PoolStringArray( "*.lore" )
-
 [node name="NodeContextMenu" type="PopupMenu" parent="."]
 margin_right = 86.0
 margin_bottom = 109.0
@@ -284,21 +282,6 @@ placeholder_text = "Rename"
 __meta__ = {
 "_edit_use_anchors_": true
 }
-
-[node name="FileFinderDialog" type="FileDialog" parent="."]
-anchor_left = 0.346
-anchor_top = 0.217
-anchor_right = 0.654
-anchor_bottom = 0.782
-margin_left = 0.195984
-margin_top = 0.299988
-margin_right = -0.196045
-margin_bottom = 0.299988
-window_title = "Open a File"
-resizable = true
-mode = 0
-access = 2
-script = ExtResource( 11 )
 
 [node name="PluginOverlay" type="Control" parent="."]
 visible = false
@@ -408,10 +391,6 @@ __meta__ = {
 [connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" to="StartOverlay/InputBlock/StarterWindow/VBoxContainer/LoadButton" method="_on_LoadButton_pressed"]
 [connection signal="pressed" from="StartOverlay/InputBlock/StarterWindow/VBoxContainer/NewButton" to="." method="_on_NewButton_pressed"]
 [connection signal="id_pressed" from="StyleFileDialogue" to="." method="_on_StyleFileDialogue_id_pressed"]
-[connection signal="file_selected" from="SessionFileDialog" to="." method="_on_SessionFileDialog_file_selected"]
-[connection signal="file_selected" from="SaveSessionDialogue" to="." method="_on_SaveSessionDialog_file_selected"]
 [connection signal="confirmed" from="NodeRenameDialogue" to="." method="_on_NodeRenameDialogue_confirmed"]
 [connection signal="text_entered" from="NodeRenameDialogue/LineEdit" to="NodeRenameDialogue" method="_on_LineEdit_text_entered"]
-[connection signal="file_selected" from="FileFinderDialog" to="FileFinderDialog" method="_on_FileFinderDialog_file_selected"]
-[connection signal="files_selected" from="FileFinderDialog" to="FileFinderDialog" method="_on_FileFinderDialog_files_selected"]
-[connection signal="pressed" from="PluginOverlay/CloseOverlayButton" to="Managers/Plugins" method="_on_CloseOverlayButton_pressed"]
+[connection signal="pressed" from="PluginOverlay/CloseOverlayButton" to="Managers/PluginManager" method="_on_CloseOverlayButton_pressed"]

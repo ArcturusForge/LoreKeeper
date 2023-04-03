@@ -17,11 +17,11 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
-Globals="*res://Scripts/Globals.gd"
-Cache="*res://Scripts/Cache.gd"
-Functions="*res://Scripts/Functions.gd"
-Session="*res://Scripts/Session.gd"
-Defaults="*res://Scripts/Defaults.gd"
+Globals="*res://Scripts/Globals/Globals.gd"
+Cache="*res://Scripts/Globals/Originals/Cache.gd"
+Functions="*res://Scripts/Globals/Functions.gd"
+Session="*res://Scripts/Globals/Originals/Session.gd"
+Defaults="*res://Scripts/Globals/Originals/Defaults.gd"
 
 [gui]
 
