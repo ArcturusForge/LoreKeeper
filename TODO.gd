@@ -1,6 +1,7 @@
 extends Control
 # Purely a TODO file that is viewable in editor.
 
+# --- Completed
 # -/ Close button on text elements
 # -/ Horizontal list container
 # -/?DisabledZoom? Block mouse scroll on freeformContainer
@@ -18,6 +19,7 @@ extends Control
 # -/ Expose features to the plugin system. - Solved by providing global access to main script.
 # -/ Store graph position in session data - Offer a reset view option or only locally cache view.
 # -/ Track when session needs saving
+# --- Incomplete
 # - Move cache file to userdata.
 # - Copy image feature. Copies the encoded image to clipboard.
 # - Feature to reference entities while writing in a text field using "@name_of_category".
@@ -34,6 +36,10 @@ extends Control
 # - Popup manager that handles popup requests.
 # - Plugins in userdata need to have their scene files edited if they have references to scripts.
 # - Fix the broken plugin refs for the uploaded itch file
+# - Can take the binary data from clipboard to reconstruct image without needing to save it beforehand.
+# - Rework the delete element button placement.
+# --- Perma Delayed
+# --- Cancelled
 
 # You can convert to android by changing appdata location to the UserData directory probably...
 # or downloading godot on android and copying the project onto device and running it through that.
