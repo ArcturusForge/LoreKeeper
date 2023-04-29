@@ -330,7 +330,7 @@ func _on_SaveSessionDialog_file_selected(path: String):
 	Functions.set_app_name()
 	pass
 
-func handle_redraw_all(windowOffset:Vector2):###
+func handle_redraw_all():
 	generate_window()
 	pass
 
